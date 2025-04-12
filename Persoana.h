@@ -2,9 +2,11 @@
 #define PERSOANA_H
 
 #include <string>
-#include <iostream> // Necesat pentru std::ostream, std::istream
+#include <iostream>
+#include "IAfisabil.h" // Include noua interfata
 
-class Persoana {
+// Persoana este o clasa de baza abstracta SI implementeaza IAfisabil
+class Persoana : public IAfisabil {
 private:
     std::string nume;
     std::string prenume;
@@ -12,15 +14,12 @@ private:
     int varsta;
 
 public:
-    // Constructori
     Persoana();
     Persoana(const std::string& nume, const std::string& prenume, const std::string& CNP, int varsta);
     Persoana(const Persoana& other);
+    virtual ~Persoana(); // Destructorul ramane virtual
 
-    // Destructor virtual (important pentru clasele de baza)
-    virtual ~Persoana();
-
-    // Getteri și setteri
+    // Getteri/Setteri (raman la fel)
     std::string getNume() const;
     void setNume(const std::string& nume);
     std::string getPrenume() const;
@@ -30,15 +29,19 @@ public:
     int getVarsta() const;
     void setVarsta(int varsta);
 
-    // Metode virtuale
-    virtual void afisare() const;
-    virtual std::string getTip() const; // Returneaza tipul persoanei (ex: "Client", "Angajat")
+    // Implementarea interfetei IAfisabil (devine virtuala normala, nu pura)
+    // O vom implementa in Persoana.cpp pentru datele comune.
+    // Clasele derivate o pot suprascrie (override).
+    virtual void afisare(std::ostream& os) const;
 
-    // Operatori
+    // getTip ramane pur virtuala - specifica ierarhiei Persoana
+    virtual std::string getTip() const = 0;
+
+    // Operatori (raman la fel)
     Persoana& operator=(const Persoana& other);
     bool operator==(const Persoana& other) const;
 
-    // Declaratii friend pentru operatorii stream
+    // Operatorii stream pot fi prieteni in continuare, dar implementarea se schimba
     friend std::ostream& operator<<(std::ostream& os, const Persoana& persoana);
     friend std::istream& operator>>(std::istream& is, Persoana& persoana);
 };

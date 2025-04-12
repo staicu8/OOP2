@@ -2,45 +2,38 @@
 #include <iostream>
 
 // Constructori
-Angajat::Angajat() : Persoana(), salariu(0.0), aniExperienta(0) {
-    // std::cout << "Constructor Angajat (default)" << std::endl;
-}
+Angajat::Angajat() : Persoana(), salariu(0.0), aniExperienta(0) {}
 
 Angajat::Angajat(const std::string& nume, const std::string& prenume, const std::string& CNP,
                  int varsta, const std::string& functie, double salariu, int aniExperienta)
-    : Persoana(nume, prenume, CNP, varsta), functie(functie), salariu(salariu), aniExperienta(aniExperienta) {
-    // std::cout << "Constructor Angajat (parametrizat): " << getNume() << std::endl;
-}
+    : Persoana(nume, prenume, CNP, varsta), functie(functie), salariu(salariu), aniExperienta(aniExperienta) {}
 
 Angajat::Angajat(const Angajat& other)
-    : Persoana(other), functie(other.functie), salariu(other.salariu), aniExperienta(other.aniExperienta) {
-     // std::cout << "Constructor Angajat (copiere): " << getNume() << std::endl;
-}
+    : Persoana(other), functie(other.functie), salariu(other.salariu), aniExperienta(other.aniExperienta) {}
 
 // Destructor
-Angajat::~Angajat() {
-     // std::cout << "Destructor Angajat: " << getNume() << std::endl;
-}
+Angajat::~Angajat() {}
 
 // Getteri și setteri
 std::string Angajat::getFunctie() const { return functie; }
 void Angajat::setFunctie(const std::string& functie) { this->functie = functie; }
 double Angajat::getSalariu() const { return salariu; }
-void Angajat::setSalariu(double salariu) { this->salariu = salariu; } // Validare salariu?
+void Angajat::setSalariu(double salariu) { this->salariu = salariu; }
 int Angajat::getAniExperienta() const { return aniExperienta; }
-void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; } // Validare ani?
+void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; }
 
-// Metode suprascrise
-void Angajat::afisare() const {
-    Persoana::afisare(); // Apelam metoda din clasa de baza
-    std::cout << ", Tip: " << getTip()
-              << ", Functie: " << functie
-              << ", Salariu: " << salariu << " RON"
-              << ", Experienta: " << aniExperienta << " ani";
+// Implementare/Suprascriere metode virtuale
+void Angajat::afisare(std::ostream& os) const {
+    Persoana::afisare(os); // Apelam implementarea din clasa de baza CU parametrul 'os'
+    // Adaugam specificul Angajatului
+    os << ", Tip: " << getTip() // Apelam getTip() local
+       << ", Functie: " << functie
+       << ", Salariu: " << salariu << " RON"
+       << ", Experienta: " << aniExperienta << " ani";
 }
 
 std::string Angajat::getTip() const {
-    return "Angajat";
+    return "Angajat"; // Implementarea specifica pentru Angajat
 }
 
 // Operatori
@@ -64,11 +57,8 @@ bool Angajat::operator==(const Angajat& other) const {
 
 // Implementarea operatorilor stream (prieteni)
 std::ostream& operator<<(std::ostream& os, const Angajat& angajat) {
-    os << static_cast<const Persoana&>(angajat) // Afisam partea de Persoana
-       << ", Tip: Angajat"
-       << ", Functie: " << angajat.functie
-       << ", Salariu: " << angajat.salariu << " RON"
-       << ", Experienta: " << angajat.aniExperienta << " ani";
+    // Apeleaza metoda virtuala afisare(os) specifica (Angajat::afisare)
+    angajat.afisare(os);
     return os;
 }
 
@@ -77,6 +67,5 @@ std::istream& operator>>(std::istream& is, Angajat& angajat) {
     std::cout << "Functie: "; is >> angajat.functie;
     std::cout << "Salariu: "; is >> angajat.salariu;
     std::cout << "Ani experienta: "; is >> angajat.aniExperienta;
-    // Adauga validari
     return is;
 }

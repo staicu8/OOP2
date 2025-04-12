@@ -1,62 +1,56 @@
 #ifndef REZERVARE_H
 #define REZERVARE_H
 
-#include "Client.h" // Include definitia Client
-#include "Camera.h" // Include definitia Camera
+#include "Client.h" // Client include Persoana->IAfisabil
+#include "Camera.h" // Camera include TipCamera->IAfisabil
 #include <string>
 #include <iostream>
 
-class Rezervare {
+class Rezervare : public IAfisabil { // Mosteneste interfata
 private:
-    static int numarTotalRezervari; // Contor static pentru ID-uri
+    static int numarTotalRezervari;
     int id;
     Client client; // Contine obiect Client (copie)
-    Camera camera; // Contine obiect Camera (copie) - Atentie, starea 'ocupata' aici e independenta!
+    Camera camera; // Contine obiect Camera (copie)
     std::string dataCheckIn;
     std::string dataCheckOut;
     int numarZile;
-    double pretTotal; // Calculat
+    double pretTotal;
     bool platita;
 
 public:
-    // Constructori
     Rezervare();
     Rezervare(const Client& client, const Camera& camera, const std::string& dataCheckIn,
               const std::string& dataCheckOut, int numarZile, bool platita = false);
     Rezervare(const Rezervare& other);
-
-    // Destructor
     ~Rezervare();
 
-    // Getteri și setteri
+    // Getteri / Setteri
     int getId() const;
-    // Returnam referinte constante pentru eficienta si pentru a vedea starea curenta
     const Client& getClientRef() const;
     void setClient(const Client& client);
     const Camera& getCameraRef() const;
-    void setCamera(const Camera& camera); // Permite schimbarea camerei unei rezervari? Reanalizeaza logica.
+    void setCamera(const Camera& camera);
     std::string getDataCheckIn() const;
     void setDataCheckIn(const std::string& data);
     std::string getDataCheckOut() const;
     void setDataCheckOut(const std::string& data);
     int getNumarZile() const;
-    void setNumarZile(int zile); // Ar trebui sa recalculeze pretul?
+    void setNumarZile(int zile);
     double getPretTotal() const;
-    // void setPretTotal(double pret); // Pretul e calculat, nu setat direct
     bool isPlatita() const;
     void setPlatita(bool platita);
 
     // Metode
-    void calculeazaPretTotal(); // Metoda pentru a (re)calcula pretul
-    void afisare() const;
+    void calculeazaPretTotal();
+    // Implementarea interfetei IAfisabil
+    void afisare(std::ostream& os) const;
 
     // Operatori
     Rezervare& operator=(const Rezervare& other);
-    bool operator==(const Rezervare& other) const; // Compara pe baza ID-ului
-
-    // Declaratii friend
+    bool operator==(const Rezervare& other) const;
     friend std::ostream& operator<<(std::ostream& os, const Rezervare& rezervare);
-    friend std::istream& operator>>(std::istream& is, Rezervare& rezervare); // Citirea unei rezervari necesita context (Client, Camera existenti) - dificil de implementat generic
+    friend std::istream& operator>>(std::istream& is, Rezervare& rezervare);
 };
 
 #endif // REZERVARE_H

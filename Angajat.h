@@ -1,7 +1,7 @@
 #ifndef ANGAJAT_H
 #define ANGAJAT_H
 
-#include "Persoana.h" // Include clasa de baza
+#include "Persoana.h" // Include si IAfisabil indirect
 #include <string>
 #include <iostream>
 
@@ -12,16 +12,13 @@ private:
     int aniExperienta;
 
 public:
-    // Constructori
     Angajat();
     Angajat(const std::string& nume, const std::string& prenume, const std::string& CNP,
             int varsta, const std::string& functie, double salariu, int aniExperienta);
     Angajat(const Angajat& other);
+    ~Angajat(); // Destructor (fara override in C++98)
 
-    // Destructor
-    ~Angajat() override;
-
-    // Getteri și setteri
+    // Getteri / Setteri specifici
     std::string getFunctie() const;
     void setFunctie(const std::string& functie);
     double getSalariu() const;
@@ -29,15 +26,15 @@ public:
     int getAniExperienta() const;
     void setAniExperienta(int ani);
 
-    // Metode suprascrise
-    void afisare() const override;
-    std::string getTip() const override;
+    // Suprascriem metoda virtuala afisare din Persoana (IAfisabil)
+    void afisare(std::ostream& os) const; // Fara override in C++98
+    // Suprascriem metoda pur virtuala getTip din Persoana
+    std::string getTip() const; // Fara override in C++98
 
     // Operatori
     Angajat& operator=(const Angajat& other);
-    bool operator==(const Angajat& other) const; // Poate compara si date specifice angajatului
+    bool operator==(const Angajat& other) const;
 
-    // Declaratii friend
     friend std::ostream& operator<<(std::ostream& os, const Angajat& angajat);
     friend std::istream& operator>>(std::istream& is, Angajat& angajat);
 };

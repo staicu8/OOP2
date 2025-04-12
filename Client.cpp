@@ -2,25 +2,17 @@
 #include <iostream>
 
 // Constructori
-Client::Client() : Persoana(), numarRezervari(0), clientFidel(false) {
-    // std::cout << "Constructor Client (default)" << std::endl;
-}
+Client::Client() : Persoana(), numarRezervari(0), clientFidel(false) {}
 
 Client::Client(const std::string& nume, const std::string& prenume, const std::string& CNP,
                int varsta, int numarRezervari, bool clientFidel)
-    : Persoana(nume, prenume, CNP, varsta), numarRezervari(numarRezervari), clientFidel(clientFidel) {
-    // std::cout << "Constructor Client (parametrizat): " << getNume() << std::endl;
-}
+    : Persoana(nume, prenume, CNP, varsta), numarRezervari(numarRezervari), clientFidel(clientFidel) {}
 
 Client::Client(const Client& other)
-    : Persoana(other), numarRezervari(other.numarRezervari), clientFidel(other.clientFidel) {
-    // std::cout << "Constructor Client (copiere): " << getNume() << std::endl;
-}
+    : Persoana(other), numarRezervari(other.numarRezervari), clientFidel(other.clientFidel) {}
 
 // Destructor
-Client::~Client() {
-    // std::cout << "Destructor Client: " << getNume() << std::endl;
-}
+Client::~Client() {}
 
 // Getteri și setteri
 int Client::getNumarRezervari() const { return numarRezervari; }
@@ -28,16 +20,17 @@ void Client::setNumarRezervari(int numarRezervari) { this->numarRezervari = numa
 bool Client::isClientFidel() const { return clientFidel; }
 void Client::setClientFidel(bool clientFidel) { this->clientFidel = clientFidel; }
 
-// Metode suprascrise
-void Client::afisare() const {
-    Persoana::afisare(); // Apelam metoda din clasa de baza
-    std::cout << ", Tip: " << getTip() // Apelam getTip() local
-              << ", Numar Rezervari: " << numarRezervari
-              << ", Client Fidel: " << (clientFidel ? "Da" : "Nu");
+// Implementare/Suprascriere metode virtuale
+void Client::afisare(std::ostream& os) const {
+    Persoana::afisare(os); // Apelam implementarea din clasa de baza CU parametrul 'os'
+    // Adaugam specificul Clientului
+    os << ", Tip: " << getTip() // Apelam getTip() local
+       << ", Numar Rezervari: " << numarRezervari
+       << ", Client Fidel: " << (clientFidel ? "Da" : "Nu");
 }
 
 std::string Client::getTip() const {
-    return "Client";
+    return "Client"; // Implementarea specifica pentru Client
 }
 
 // Operatori
@@ -59,11 +52,8 @@ bool Client::operator==(const Client& other) const {
 
 // Implementarea operatorilor stream (prieteni)
 std::ostream& operator<<(std::ostream& os, const Client& client) {
-    // Afiseaza partea de Persoana si apoi datele specifice Clientului
-    os << static_cast<const Persoana&>(client) // Facem cast pentru a apela op<< din Persoana
-       << ", Tip: Client"
-       << ", Numar Rezervari: " << client.numarRezervari
-       << ", Client Fidel: " << (client.clientFidel ? "Da" : "Nu");
+    // Apeleaza metoda virtuala afisare(os) specifica (Client::afisare)
+    client.afisare(os);
     return os;
 }
 
@@ -75,6 +65,5 @@ std::istream& operator>>(std::istream& is, Client& client) {
     int fidelInput;
     is >> fidelInput;
     client.clientFidel = (fidelInput == 1);
-    // Adauga validari daca e necesar
     return is;
 }

@@ -3,24 +3,22 @@
 
 #include <string>
 #include <iostream>
+#include "IAfisabil.h" // Include interfata
 
-class TipCamera {
+class TipCamera : public IAfisabil { // Mosteneste interfata
 private:
     std::string denumire;
     int numarMaximPersoane;
     bool areBalcon;
-    bool areVedere; // Ex: vedere la mare, vedere la gradina etc.
+    bool areVedere;
 
 public:
-    // Constructori
     TipCamera();
     TipCamera(const std::string& denumire, int numarMaximPersoane, bool areBalcon, bool areVedere);
     TipCamera(const TipCamera& other);
-
-    // Destructor
     ~TipCamera();
 
-    // Getteri și setteri
+    // Getteri / Setteri
     std::string getDenumire() const;
     void setDenumire(const std::string& denumire);
     int getNumarMaximPersoane() const;
@@ -30,11 +28,12 @@ public:
     bool hasVedere() const;
     void setAreVedere(bool areVedere);
 
+    // Implementarea interfetei IAfisabil
+    void afisare(std::ostream& os) const;
+
     // Operatori
     TipCamera& operator=(const TipCamera& other);
     bool operator==(const TipCamera& other) const;
-
-    // Declaratii friend
     friend std::ostream& operator<<(std::ostream& os, const TipCamera& tipCamera);
     friend std::istream& operator>>(std::istream& is, TipCamera& tipCamera);
 };

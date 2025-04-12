@@ -1,48 +1,43 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "TipCamera.h" // Include definitia TipCamera
+#include "TipCamera.h" // TipCamera include IAfisabil
 #include <string>
 #include <iostream>
 
-class Camera {
+class Camera : public IAfisabil { // Mosteneste interfata
 private:
     int numar;
     double pretPeNoapte;
     bool ocupata;
-    TipCamera tip; // Contine un obiect TipCamera
+    TipCamera tip;
     int etaj;
 
 public:
-    // Constructori
     Camera();
     Camera(int numar, double pretPeNoapte, bool ocupata, const TipCamera& tip, int etaj);
     Camera(const Camera& other);
-
-    // Destructor
     ~Camera();
 
-    // Getteri și setteri
+    // Getteri / Setteri
     int getNumar() const;
     void setNumar(int numar);
     double getPretPeNoapte() const;
     void setPretPeNoapte(double pret);
     bool isOcupata() const;
     void setOcupata(bool ocupata);
-    TipCamera getTip() const; // Returneaza o copie a obiectului TipCamera
-    const TipCamera& getTipRef() const; // Returneaza referinta constanta (mai eficient)
+    TipCamera getTip() const; // Returneaza copie
+    const TipCamera& getTipRef() const; // Returneaza referinta constanta
     void setTip(const TipCamera& tip);
     int getEtaj() const;
     void setEtaj(int etaj);
 
-    // Metode
-    void afisare() const; // Afiseaza detaliile camerei
+    // Implementarea interfetei IAfisabil
+    void afisare(std::ostream& os) const;
 
     // Operatori
     Camera& operator=(const Camera& other);
-    bool operator==(const Camera& other) const; // Compara pe baza numarului camerei
-
-    // Declaratii friend
+    bool operator==(const Camera& other) const;
     friend std::ostream& operator<<(std::ostream& os, const Camera& camera);
     friend std::istream& operator>>(std::istream& is, Camera& camera);
 };
