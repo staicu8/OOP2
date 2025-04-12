@@ -13,8 +13,7 @@ private:
 
 public:
     Angajat();
-    Angajat(const std::string& nume, const std::string& prenume, const std::string& CNP,
-            int varsta, const std::string& functie, double salariu, int aniExperienta);
+    Angajat(std::string nume, std::string prenume, std::string CNP,int varsta, const std::string& functie, double salariu, int aniExperienta);
     Angajat(const Angajat& other);
     ~Angajat(); // Destructor (fara override in C++98)
 

@@ -59,18 +59,14 @@ void Hotel::setAdresa(const std::string& adresa) { this->adresa = adresa; }
 int Hotel::getNumarStele() const { return numarStele; }
 void Hotel::setNumarStele(int stele) {
     // Optional: adauga validare pentru numarul de stele (ex: 1-5)
-    if (stele >= 0 && stele <= 5) { // Permitem 0 stele? Sau de la 1?
-         this->numarStele = stele;
-    } else {
-        std::cerr << "Eroare: Numar invalid de stele (" << stele << "). Valoarea nu a fost setata." << std::endl;
-    }
+    this->numarStele=stele;
 }
 
 // --- Management Camere ---
 
 // Gaseste camera dupa numar, returneaza pointer sau 0
 Camera* Hotel::gasesteCamera(int numarCamera) {
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         if (camere[i].getNumar() == numarCamera) {
             return &camere[i]; // Returnam adresa obiectului din vector
         }
@@ -80,7 +76,7 @@ Camera* Hotel::gasesteCamera(int numarCamera) {
 
 // Varianta const a functiei gasesteCamera
 const Camera* Hotel::gasesteCamera(int numarCamera) const {
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         if (camere[i].getNumar() == numarCamera) {
             return &camere[i];
         }
@@ -90,19 +86,19 @@ const Camera* Hotel::gasesteCamera(int numarCamera) const {
 
 // Adauga o camera in vector
 void Hotel::adaugaCamera(const Camera& camera) {
-    // Verifica daca exista deja o camera cu acelasi numar
+    // Verificam daca exista deja o camera cu acelasi numar
     if (gasesteCamera(camera.getNumar()) != 0) {
         std::cerr << "Eroare Adaugare Camera: Camera cu numarul " << camera.getNumar() << " exista deja!" << std::endl;
-        return; // Nu adauga duplicat
+        return;
     }
     camere.push_back(camera); // Adauga o copie a camerei in vector
-    // std::cout << "Camera Nr " << camera.getNumar() << " adaugata." << std::endl;
+    std::cout << "Camera Nr " << camera.getNumar() << " adaugata." << std::endl;
 }
 
 // Sterge o camera dupa numar
 bool Hotel::stergeCamera(int numarCamera) {
     int index_gasit = -1;
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         if (camere[i].getNumar() == numarCamera) {
             index_gasit = i;
             break;
@@ -110,12 +106,9 @@ bool Hotel::stergeCamera(int numarCamera) {
     }
 
     if (index_gasit != -1) {
-        // Optional (Important intr-un sistem real):
-        // Verifica daca aceasta camera este folosita intr-o rezervare activa inainte de a sterge.
-        // Daca da, fie interzici stergerea, fie anulezi rezervarea.
-        // Exemplu simplu de verificare (necesita parcurgerea rezervarilor):
+        // Verifica daca aceasta camera este folosita intr-o rezervare activa inainte de a sterge
         bool folosita_in_rezervare = false;
-        for (int j = 0; j < static_cast<int>(rezervari.size()); ++j) {
+        for (int j = 0; j < rezervari.size(); ++j) {
             if (rezervari[j].getCameraRef().getNumar() == numarCamera) {
                 folosita_in_rezervare = true;
                 break;
@@ -126,8 +119,6 @@ bool Hotel::stergeCamera(int numarCamera) {
             return false;
         }
 
-        // Daca nu e folosita, o stergem
-        // std::cout << "Stergere camera Nr " << numarCamera << "..." << std::endl;
         camere.erase(camere.begin() + index_gasit); // Sterge elementul de la indexul gasit
         return true;
     } else {
@@ -142,9 +133,7 @@ void Hotel::afisareCamere() const {
     if (camere.empty()) {
         std::cout << "Nu exista camere inregistrate." << std::endl;
     } else {
-        for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
-            // Folosim operatorul << suprascris pentru Camera,
-            // care apeleaza Camera::afisare(std::cout)
+        for (int i = 0; i < camere.size(); ++i) {
             std::cout << camere[i] << std::endl;
         }
     }

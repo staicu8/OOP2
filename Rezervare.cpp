@@ -17,9 +17,7 @@ Rezervare::Rezervare(const Client& client, const Camera& camera, const std::stri
 Rezervare::Rezervare(const Rezervare& other)
     : id(other.id), client(other.client), camera(other.camera), dataCheckIn(other.dataCheckIn),
       dataCheckOut(other.dataCheckOut), numarZile(other.numarZile),
-      pretTotal(other.pretTotal), platita(other.platita) {
-    // id = ++numarTotalRezervari; // Daca vrem ID unic la copiere
-}
+      pretTotal(other.pretTotal), platita(other.platita) {}
 
 // Destructor
 Rezervare::~Rezervare() {}
@@ -50,7 +48,6 @@ void Rezervare::setPlatita(bool platita) { this->platita = platita; }
 void Rezervare::calculeazaPretTotal() {
     if (numarZile > 0) {
         pretTotal = numarZile * camera.getPretPeNoapte();
-        // Discounturi etc.
     } else {
         pretTotal = 0.0;
     }
@@ -68,7 +65,7 @@ void Rezervare::afisare(std::ostream& os) const {
 // Operatori
 Rezervare& Rezervare::operator=(const Rezervare& other) {
     if (this != &other) {
-        // Nu copiem ID-ul
+
         client = other.client;
         camera = other.camera;
         dataCheckIn = other.dataCheckIn;
@@ -97,7 +94,10 @@ std::istream& operator>>(std::istream& is, Rezervare& rezervare) {
     std::cout << "Data Check-Out: "; is >> rezervare.dataCheckOut;
     std::cout << "Numar Zile: "; is >> rezervare.numarZile;
     std::cout << "Este platita (1=Da, 0=Nu): ";
-    int platitaInput; is >> platitaInput; rezervare.platita = (platitaInput == 1);
+    int platitaInput;
+    is >> platitaInput;
+
+    rezervare.platita = (platitaInput == 1);
     rezervare.calculeazaPretTotal();
     return is;
 }

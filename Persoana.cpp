@@ -31,11 +31,10 @@ std::istream& operator>>(std::istream& is, Persoana& persoana) {
 }
 
 // --- Implementare metoda virtuala din IAfisabil ---
-// Aceasta va fi implementarea de baza, afiseaza doar datele din Persoana
+
 void Persoana::afisare(std::ostream& os) const {
-    os << "Nume: " << nume << ", Prenume: " << prenume
-       << ", CNP: " << CNP << ", Varsta: " << varsta;
-    // Nu mai afisam Tip aici, clasele derivate o vor face daca e nevoie in suprascrierea lor
+    os << "Nume: " << nume << ", Prenume: " << prenume<< ", CNP: " << CNP << ", Varsta: " << varsta;
+
 }
 // --- Sfarsit implementare IAfisabil ---
 

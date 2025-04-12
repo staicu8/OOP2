@@ -4,7 +4,7 @@
 // Constructori
 Angajat::Angajat() : Persoana(), salariu(0.0), aniExperienta(0) {}
 
-Angajat::Angajat(const std::string& nume, const std::string& prenume, const std::string& CNP,
+Angajat::Angajat(std::string nume, std::string prenume, std::string CNP,
                  int varsta, const std::string& functie, double salariu, int aniExperienta)
     : Persoana(nume, prenume, CNP, varsta), functie(functie), salariu(salariu), aniExperienta(aniExperienta) {}
 
