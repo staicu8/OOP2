@@ -1,7 +1,7 @@
 #include "Persoana.h"
 #include <iostream>
 
-// Constructori, Destructor, Getteri, Setteri, Operatori =, ==, >> (raman la fel)
+
 Persoana::Persoana() : varsta(0) {}
 Persoana::Persoana(const std::string& nume, const std::string& prenume, const std::string& CNP, int varsta)
     : nume(nume), prenume(prenume), CNP(CNP), varsta(varsta) {}
@@ -36,12 +36,12 @@ void Persoana::afisare(std::ostream& os) const {
     os << "Nume: " << nume << ", Prenume: " << prenume<< ", CNP: " << CNP << ", Varsta: " << varsta;
 
 }
-// --- Sfarsit implementare IAfisabil ---
 
 
-// --- Implementare operator<< pentru Persoana ---
-// Acum apeleaza metoda virtuala afisare(os)
+
+
+
 std::ostream& operator<<(std::ostream& os, const Persoana& persoana) {
-    persoana.afisare(os); // Apel polimorfic! Va chema Client::afisare sau Angajat::afisare
+    persoana.afisare(os);
     return os;
 }

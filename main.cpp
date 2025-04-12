@@ -30,9 +30,8 @@ void afiseazaMeniu() {
     std::cout << "10. Afiseaza Angajatii\n";
     std::cout << "11. Afiseaza Toate Rezervarile\n";
     std::cout << "12. Afiseaza Rezervarile unui Client (dupa CNP)\n";
-    std::cout << "13. Afiseaza Detalii Generale Hotel (metoda specifica)\n";
-    std::cout << "14. Calculeaza si Afiseaza Venit Total\n";
-    std::cout << "15. Afiseaza Detalii Hotel (via operator<<)\n"; // Optiune noua demo
+    std::cout << "13. Calculeaza si Afiseaza Venit Total\n";
+    std::cout << "14. Afiseaza Detalii Hotel (via operator<<)\n"; // Optiune noua demo
     std::cout << " 0. Iesire\n";
     std::cout << "============================================================\n";
     std::cout << "Alegeti o optiune: ";
@@ -157,12 +156,12 @@ int main() {
                 clearInputBuffer();
                 hotelPrincipal.afisareRezervariClient(cnp); break;
             }
-             case 13: hotelPrincipal.afisareGenerala(std::cout); break; // Apelam metoda specifica
-             case 14: { /* Calcul Venit */
+
+             case 13: {
                  double venit = hotelPrincipal.calculeazaVenitTotal();
                  std::cout << "\n--- Venit Total Actual ---\n" << venit << " RON\n------------------------\n"; break;
              }
-             case 15: std::cout << "\n--- Detalii Hotel (op<<) ---\n" << hotelPrincipal << "\n---------------------------\n"; break; // Folosim operatorul <<
+             case 14: std::cout << "\n--- Detalii Hotel (op<<) ---\n" << hotelPrincipal << "\n---------------------------\n"; break; // Folosim operatorul <<
             case 0: std::cout << "Iesire din program...\n"; break;
             default: std::cout << "Optiune invalida. Incercati din nou.\n"; break;
         }

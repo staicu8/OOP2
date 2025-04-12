@@ -66,7 +66,7 @@ public:
     Rezervare* gasesteRezervare(int idRezervare);
     const Rezervare* gasesteRezervare(int idRezervare) const;
     void afisareRezervari() const;
-    void afisareRezervariClient(const std::string& CNP) const;
+    void afisareRezervariClient(const std::string &CNP) const;
 
     // Alte metode
     void afisareGenerala(std::ostream& os) const; // Modificat sa primeasca os
