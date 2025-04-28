@@ -17,9 +17,9 @@ public:
     Persoana();
     Persoana(const std::string& nume, const std::string& prenume, const std::string& CNP, int varsta);
     Persoana(const Persoana& other);
-    virtual ~Persoana(); // Destructorul ramane virtual
+    virtual ~Persoana();
 
-    // Getteri/Setteri (raman la fel)
+
     std::string getNume() const;
     void setNume(const std::string& nume);
     std::string getPrenume() const;
@@ -29,19 +29,16 @@ public:
     int getVarsta() const;
     void setVarsta(int varsta);
 
-    // Implementarea interfetei IAfisabil (devine virtuala normala, nu pura)
-    // O vom implementa in Persoana.cpp pentru datele comune.
-    // Clasele derivate o pot suprascrie (override).
     virtual void afisare(std::ostream& os) const;
 
-    // getTip ramane pur virtuala - specifica ierarhiei Persoana
+
     virtual std::string getTip() const = 0;
 
-    // Operatori (raman la fel)
+
     Persoana& operator=(const Persoana& other);
     bool operator==(const Persoana& other) const;
 
-    // Operatorii stream pot fi prieteni in continuare, dar implementarea se schimba
+
     friend std::ostream& operator<<(std::ostream& os, const Persoana& persoana);
     friend std::istream& operator>>(std::istream& is, Persoana& persoana);
 };

@@ -6,12 +6,12 @@
 #include <string>
 #include <iostream>
 
-class Rezervare : public IAfisabil { // Mosteneste interfata
+class Rezervare : public IAfisabil {
 private:
     static int numarTotalRezervari;
     int id;
-    Client client; // Contine obiect Client (copie)
-    Camera camera; // Contine obiect Camera (copie)
+    Client client;
+    Camera camera;
     std::string dataCheckIn;
     std::string dataCheckOut;
     int numarZile;
@@ -25,7 +25,6 @@ public:
     Rezervare(const Rezervare& other);
     ~Rezervare();
 
-    // Getteri / Setteri
     int getId() const;
     const Client& getClientRef() const;
     void setClient(const Client& client);
@@ -41,12 +40,11 @@ public:
     bool isPlatita() const;
     void setPlatita(bool platita);
 
-    // Metode
+
     void calculeazaPretTotal();
-    // Implementarea interfetei IAfisabil
+
     void afisare(std::ostream& os) const;
 
-    // Operatori
     Rezervare& operator=(const Rezervare& other);
     bool operator==(const Rezervare& other) const;
     friend std::ostream& operator<<(std::ostream& os, const Rezervare& rezervare);

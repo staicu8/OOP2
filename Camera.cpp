@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include <iostream>
 
-// Constructori
+
 Camera::Camera() : numar(0), pretPeNoapte(0.0), ocupata(false), tip(), etaj(0) {}
 
 Camera::Camera(int numar, double pretPeNoapte, bool ocupata, const TipCamera& tip, int etaj)
@@ -11,10 +11,10 @@ Camera::Camera(const Camera& other)
     : numar(other.numar), pretPeNoapte(other.pretPeNoapte), ocupata(other.ocupata),
       tip(other.tip), etaj(other.etaj) {}
 
-// Destructor
+
 Camera::~Camera() {}
 
-// Getteri și setteri
+
 int Camera::getNumar() const { return numar; }
 void Camera::setNumar(int numar) { this->numar = numar; }
 double Camera::getPretPeNoapte() const { return pretPeNoapte; }
@@ -35,7 +35,7 @@ void Camera::afisare(std::ostream& os) const {
        << "   [" << tip << "]"; // Folosim operatorul<< din TipCamera
 }
 
-// Operatori
+
 Camera& Camera::operator=(const Camera& other) {
     if (this != &other) {
         numar = other.numar;
@@ -48,11 +48,11 @@ Camera& Camera::operator=(const Camera& other) {
 }
 
 bool Camera::operator==(const Camera& other) const {
-    // Comparam doar pe baza numarului
+
     return numar == other.numar;
 }
 
-// Operator << apeleaza acum afisare(os)
+
 std::ostream& operator<<(std::ostream& os, const Camera& camera) {
     camera.afisare(os);
     return os;
@@ -63,7 +63,7 @@ std::istream& operator>>(std::istream& is, Camera& camera) {
     std::cout << "Pret pe noapte: "; is >> camera.pretPeNoapte;
     std::cout << "Etaj: "; is >> camera.etaj;
     std::cout << "Introduceti detalii tip camera:\n";
-    is >> camera.tip; // Folosim operatorul>> din TipCamera
-    camera.ocupata = false; // Presupunem libera la citire initiala
+    is >> camera.tip;
+    camera.ocupata = false;
     return is;
 }

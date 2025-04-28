@@ -30,7 +30,7 @@ std::istream& operator>>(std::istream& is, Persoana& persoana) {
     return is;
 }
 
-// --- Implementare metoda virtuala din IAfisabil ---
+
 
 void Persoana::afisare(std::ostream& os) const {
     os << "Nume: " << nume << ", Prenume: " << prenume<< ", CNP: " << CNP << ", Varsta: " << varsta;

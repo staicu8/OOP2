@@ -19,15 +19,15 @@ public:
     Camera(const Camera& other);
     ~Camera();
 
-    // Getteri / Setteri
+
     int getNumar() const;
     void setNumar(int numar);
     double getPretPeNoapte() const;
     void setPretPeNoapte(double pret);
     bool isOcupata() const;
     void setOcupata(bool ocupata);
-    TipCamera getTip() const; // Returneaza copie
-    const TipCamera& getTipRef() const; // Returneaza referinta constanta
+    TipCamera getTip() const;
+    const TipCamera& getTipRef() const;
     void setTip(const TipCamera& tip);
     int getEtaj() const;
     void setEtaj(int etaj);
@@ -35,7 +35,6 @@ public:
     // Implementarea interfetei IAfisabil
     void afisare(std::ostream& os) const;
 
-    // Operatori
     Camera& operator=(const Camera& other);
     bool operator==(const Camera& other) const;
     friend std::ostream& operator<<(std::ostream& os, const Camera& camera);

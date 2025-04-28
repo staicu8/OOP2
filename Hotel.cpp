@@ -1,125 +1,128 @@
-#include "Hotel.h"      // Headerul clasei Hotel
-#include <iostream>     // Pentru std::cout, std::cerr, std::endl
-#include <vector>       // Pentru std::vector
-#include <string>       // Pentru std::string
-#include <stdexcept>    // Pentru std::runtime_error (desi nu il folosim activ)
-#include <limits>       // Pentru std::numeric_limits (in operator>>)
-#include <cstddef>      // Pentru NULL sau 0 ca pointer nul
+#include "Hotel.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdexcept>
+#include <limits>
+#include <cstddef> // Pentru NULL / 0
 
-// --- Constructori / Destructor ---
-
+// --- Constructori ---
 Hotel::Hotel() : numarStele(0) {
-    // std::cout << "Constructor Hotel (default)" << std::endl;
+    // Vectorii de pointeri sunt initializati goi implicit
+    // std::cout << "Constructor Hotel (default) - Pointeri" << std::endl;
 }
 
 Hotel::Hotel(const std::string& nume, const std::string& adresa, int numarStele)
     : nume(nume), adresa(adresa), numarStele(numarStele) {
-    // std::cout << "Constructor Hotel (parametrizat): " << nume << std::endl;
+
 }
 
-// Constructor de copiere
-Hotel::Hotel(const Hotel& other)
-    : nume(other.nume), adresa(other.adresa), numarStele(other.numarStele),
-      camere(other.camere), clienti(other.clienti), angajati(other.angajati),
-      rezervari(other.rezervari) {
-    // std::cout << "Constructor Hotel (copiere): " << nume << std::endl;
-}
 
-// Operator de atribuire
-Hotel& Hotel::operator=(const Hotel& other) {
-    // Verificare auto-atribuire
-    if (this != &other) {
-        nume = other.nume;
-        adresa = other.adresa;
-        numarStele = other.numarStele;
-        // Atribuirea pentru vectori face automat copie in C++98
-        camere = other.camere;
-        clienti = other.clienti;
-        angajati = other.angajati;
-        rezervari = other.rezervari;
-        // std::cout << "Operator= Hotel: " << nume << std::endl;
-    }
-    return *this;
-}
-
-// Destructor
 Hotel::~Hotel() {
-    // Vectorii de obiecte (nu pointeri) isi apeleaza automat destructorii
-    // pentru fiecare element atunci cand obiectul Hotel este distrus.
-    // Nu este necesar cod suplimentar aici pentru memoria membrilor din vectori.
-    // std::cout << "Destructor Hotel: " << nume << std::endl;
+    // std::cout << "Destructor Hotel: Eliberare memorie pentru '" << nume << "'..." << std::endl;
+
+
+    //std::cout << "  - Stergere Camere..." << std::endl;
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+        delete camere[i];
+    }
+
+
+
+    //std::cout << "  - Stergere Clienti..." << std::endl;
+    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+        delete clienti[i];
+    }
+    clienti.clear();
+
+
+    //std::cout << "  - Stergere Angajati..." << std::endl;
+    for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+        delete angajati[i];
+    }
+    angajati.clear();
+
+
+    // std::cout << "  - Stergere Rezervari..." << std::endl;
+    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+        delete rezervari[i]; // Apeleaza destructorul Rezervare
+    }
+    rezervari.clear();
+
+    // std::cout << "Destructor Hotel: Memorie eliberata." << std::endl;
 }
 
-// --- Getteri / Setteri ---
 
 std::string Hotel::getNume() const { return nume; }
 void Hotel::setNume(const std::string& nume) { this->nume = nume; }
 std::string Hotel::getAdresa() const { return adresa; }
 void Hotel::setAdresa(const std::string& adresa) { this->adresa = adresa; }
 int Hotel::getNumarStele() const { return numarStele; }
-void Hotel::setNumarStele(int stele) {
-    // Optional: adauga validare pentru numarul de stele (ex: 1-5)
-    this->numarStele=stele;
-}
+void Hotel::setNumarStele(int stele) { if (stele >= 0 && stele <= 5) this->numarStele = stele; else std::cerr << "..."; }
 
-// --- Management Camere ---
 
-// Gaseste camera dupa numar, returneaza pointer sau 0
+
 Camera* Hotel::gasesteCamera(int numarCamera) {
-    for (int i = 0; i < camere.size(); ++i) {
-        if (camere[i].getNumar() == numarCamera) {
-            return &camere[i]; // Returnam adresa obiectului din vector
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+
+        if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
+            return camere[i];
         }
     }
-    return 0; // Nu s-a gasit
+    return 0;
 }
-
-// Varianta const a functiei gasesteCamera
 const Camera* Hotel::gasesteCamera(int numarCamera) const {
-    for (int i = 0; i < camere.size(); ++i) {
-        if (camere[i].getNumar() == numarCamera) {
-            return &camere[i];
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+        if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
+            return camere[i];
         }
     }
     return 0;
 }
 
-// Adauga o camera in vector
-void Hotel::adaugaCamera(const Camera& camera) {
-    // Verificam daca exista deja o camera cu acelasi numar
-    if (gasesteCamera(camera.getNumar()) != 0) {
-        std::cerr << "Eroare Adaugare Camera: Camera cu numarul " << camera.getNumar() << " exista deja!" << std::endl;
+void Hotel::adaugaCamera(Camera* pCamera) {
+    if (pCamera == 0) {
+        std::cerr << "Eroare Adaugare Camera" << std::endl;
         return;
     }
-    camere.push_back(camera); // Adauga o copie a camerei in vector
-    std::cout << "Camera Nr " << camera.getNumar() << " adaugata." << std::endl;
+    if (gasesteCamera(pCamera->getNumar()) != 0) {
+        std::cerr << "Eroare Adaugare Camera: Camera cu numarul " << pCamera->getNumar() << " exista deja!" << std::endl;
+
+        return;
+    }
+    camere.push_back(pCamera); // Adaugam pointerul in vector
+    std::cout << "Camera Nr " << pCamera->getNumar() << " (pointer) adaugata." << std::endl;
 }
 
-// Sterge o camera dupa numar
 bool Hotel::stergeCamera(int numarCamera) {
     int index_gasit = -1;
-    for (int i = 0; i < camere.size(); ++i) {
-        if (camere[i].getNumar() == numarCamera) {
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+        if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
             index_gasit = i;
             break;
         }
     }
 
     if (index_gasit != -1) {
-        // Verifica daca aceasta camera este folosita intr-o rezervare activa inainte de a sterge
+
         bool folosita_in_rezervare = false;
-        for (int j = 0; j < rezervari.size(); ++j) {
-            if (rezervari[j].getCameraRef().getNumar() == numarCamera) {
+        for (int j = 0; j < static_cast<int>(rezervari.size()); ++j) {
+
+             if (rezervari[j] != 0 && rezervari[j]->getCameraRef().getNumar() == numarCamera) {
                 folosita_in_rezervare = true;
                 break;
             }
         }
         if (folosita_in_rezervare) {
-            std::cerr << "Eroare Stergere Camera: Camera Nr " << numarCamera << " este folosita intr-o rezervare activa si nu poate fi stearsa." << std::endl;
+            std::cerr << "Eroare Stergere Camera: Camera Nr " << numarCamera << " este folosita intr-o rezervare activa." << std::endl;
             return false;
         }
 
-        camere.erase(camere.begin() + index_gasit); // Sterge elementul de la indexul gasit
+
+        delete camere[index_gasit]; //
+
+
+        camere.erase(camere.begin() + index_gasit);
         return true;
     } else {
         std::cerr << "Eroare Stergere Camera: Camera Nr " << numarCamera << " nu a fost gasita." << std::endl;
@@ -127,170 +130,190 @@ bool Hotel::stergeCamera(int numarCamera) {
     }
 }
 
-// Afiseaza toate camerele
 void Hotel::afisareCamere() const {
-    std::cout << "\n--- Camerele Hotelului " << nume << " ---" << std::endl;
+    std::cout << "\n--- Camerele Hotelului " << nume  << std::endl;
     if (camere.empty()) {
         std::cout << "Nu exista camere inregistrate." << std::endl;
     } else {
-        for (int i = 0; i < camere.size(); ++i) {
-            std::cout << camere[i] << std::endl;
+        for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+            if (camere[i] != 0) {
+                std::cout << *(camere[i]) << std::endl;
+            } else {
+                 std::cout << "  -> Pointer nul la index " << i << std::endl;
+            }
         }
     }
-    std::cout << "----------------------------------" << std::endl;
-}
 
-// Afiseaza camerele libere
+}
 void Hotel::afisareCamereLibere() const {
     std::cout << "\n--- Camere Libere ---" << std::endl;
     bool gasit = false;
-    for (int i = 0; i < camere.size(); ++i) {
-        if (!camere[i].isOcupata()) {
-            std::cout << camere[i] << std::endl;
-            gasit = true;
+
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+
+        if (camere[i] != 0) {
+
+            if (!camere[i]->isOcupata()) {
+
+                std::cout << *(camere[i]) << std::endl;
+                gasit = true;
+            }
         }
     }
     if (!gasit) {
         std::cout << "Nu exista camere libere momentan." << std::endl;
     }
-    std::cout << "---------------------" << std::endl;
 }
-
-// Afiseaza camerele ocupate
 void Hotel::afisareCamereOcupate() const {
     std::cout << "\n--- Camere Ocupate ---" << std::endl;
     bool gasit = false;
-    for (int i = 0; i < camere.size(); ++i) {
-        if (camere[i].isOcupata()) {
-            std::cout << camere[i] << std::endl;
-            gasit = true;
+
+    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+
+        if (camere[i] != 0) {
+
+            if (camere[i]->isOcupata()) {
+
+                std::cout << *(camere[i]) << std::endl;
+                gasit = true;
+            }
         }
     }
-     if (!gasit) {
+    if (!gasit) {
         std::cout << "Nu exista camere ocupate momentan." << std::endl;
     }
-    std::cout << "--------------------" << std::endl;
+
 }
 
-// --- Management Clienti ---
 
-// Gaseste client dupa CNP, returneaza pointer sau 0
+
 Client* Hotel::gasesteClient(const std::string& CNP) {
-    for (int i = 0; i < clienti.size(); ++i) {
-        if (clienti[i].getCNP() == CNP) {
-            return &clienti[i];
+    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+        if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
+            return clienti[i];
         }
     }
     return 0;
 }
-// Varianta const
 const Client* Hotel::gasesteClient(const std::string& CNP) const {
-    for (int i = 0; i < clienti.size(); ++i) {
-        if (clienti[i].getCNP() == CNP) {
-            return &clienti[i];
+     for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+        if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
+            return clienti[i];
         }
     }
     return 0;
 }
 
-// Adauga client
-void Hotel::adaugaClient(const Client& client) {
-     if (gasesteClient(client.getCNP()) != 0) {
-        std::cerr << "Eroare Adaugare Client: Clientul cu CNP " << client.getCNP() << " exista deja!" << std::endl;
+void Hotel::adaugaClient(Client* pClient) {
+    if (pClient == 0) {
         return;
     }
-    clienti.push_back(client);
-    std::cout << "Clientul " << client.getPrenume() << " " << client.getNume() << " adaugat." << std::endl;
+    if (gasesteClient(pClient->getCNP()) != 0) {
+        std::cerr << "Eroare Adaugare Client: Clientul cu CNP " << pClient->getCNP() << " exista deja!" << std::endl;
+
+        return;
+    }
+    clienti.push_back(pClient);
+    std::cout << "Clientul " << pClient->getPrenume() << " (pointer) adaugat." << std::endl;
 }
 
-// Sterge client dupa CNP
 bool Hotel::stergeClient(const std::string& CNP) {
     int index_gasit = -1;
-    for (int i = 0; i < clienti.size(); ++i) {
-        if (clienti[i].getCNP() == CNP) {
+    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+        if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
             index_gasit = i;
             break;
         }
     }
-
     if (index_gasit != -1) {
-        //Verifica daca clientul are rezervari active.
-        bool are_rezervari = false;
-        for (int j = 0; j < rezervari.size(); ++j) {
-            if (rezervari[j].getClientRef().getCNP() == CNP) {
-                are_rezervari = true;
-                break;
-            }
-        }
-        if (are_rezervari) {
-             std::cerr << "Eroare Stergere Client: Clientul CNP " << CNP << " are rezervari active si nu poate fi sters." << std::endl;
-            return false;
-        }
 
-        // Daca nu are rezervari, il stergem
-        clienti.erase(clienti.begin() + index_gasit);
+         bool are_rezervari = false;
+         for(int j=0; j<static_cast<int>(rezervari.size()); ++j) {
+             if(rezervari[j] != 0 && rezervari[j]->getClientRef().getCNP() == CNP) {
+                 are_rezervari = true;
+                 break;
+             }
+         }
+         if (are_rezervari) {
+             return false;
+         }
+
+
+         delete clienti[index_gasit];
+         clienti.erase(clienti.begin() + index_gasit);
         return true;
     } else {
-         std::cerr << "Eroare Stergere Client: Clientul cu CNP " << CNP << " nu a fost gasit." << std::endl;
         return false;
     }
 }
 
-// Afiseaza toti clientii
 void Hotel::afisareClienti() const {
-     std::cout << "\n--- Clientii Hotelului " << nume << " ---" << std::endl;
-    if (clienti.empty()) {
-        std::cout << "Nu exista clienti inregistrati." << std::endl;
-    } else {
-        for (int i = 0; i < clienti.size(); ++i) {
-            std::cout << clienti[i] << std::endl;
+    std::cout << "\n--- Clientii Hotelului " << nume  << std::endl;
+    if (clienti.empty()) { std::cout<<"Nu exista clienti"<<'\n'; }
+    else {
+        for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+            if (clienti[i] != 0) {
+                std::cout << *(clienti[i]) << std::endl;
+            }
         }
     }
-    std::cout << "---------------------------------" << std::endl;
+    std::cout << "------------------------------------------" << std::endl;
 }
 
-// --- Management Angajati ---
 
-// Gaseste angajat dupa CNP, returneaza pointer sau 0
+
 Angajat* Hotel::gasesteAngajat(const std::string& CNP) {
-    for (int i = 0; i < angajati.size(); ++i) {
-        if (angajati[i].getCNP() == CNP) {
-            return &angajati[i];
-        }
-    }
-    return 0;
-}
-// Varianta const
-const Angajat* Hotel::gasesteAngajat(const std::string& CNP) const {
-     for (int i = 0; i < angajati.size(); ++i) {
-        if (angajati[i].getCNP() == CNP) {
-            return &angajati[i];
+    for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+        if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
+            return angajati[i];
         }
     }
     return 0;
 }
 
-// Adauga angajat
-void Hotel::adaugaAngajat(const Angajat& angajat) {
-    if (gasesteAngajat(angajat.getCNP()) != 0) {
-        std::cerr << "Eroare Adaugare Angajat: Angajatul cu CNP " << angajat.getCNP() << " exista deja!" << std::endl;
+
+const Angajat* Hotel::gasesteAngajat(const std::string& CNP) const {
+     for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+        if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
+            return angajati[i];
+        }
+    }
+    return 0;
+}
+
+
+void Hotel::adaugaAngajat(Angajat* pAngajat) {
+    if (pAngajat == 0) { // Verificam pointerul primit
+        std::cerr << "Eroare Adaugare Angajat: Se incearca adaugarea unui pointer nul!" << std::endl;
         return;
     }
-    angajati.push_back(angajat);
-    std::cout << "Angajatul " << angajat.getPrenume() << " " << angajat.getNume() << " adaugat." << std::endl;
+
+    if (gasesteAngajat(pAngajat->getCNP()) != 0) {
+        std::cerr << "Eroare Adaugare Angajat: Angajatul cu CNP " << pAngajat->getCNP() << " exista deja!" << std::endl;
+
+        return;
+    }
+    angajati.push_back(pAngajat);
+    std::cout << "Angajatul " << pAngajat->getPrenume() << " (pointer) adaugat." << std::endl;
 }
 
-// Sterge angajat dupa CNP
+
 bool Hotel::stergeAngajat(const std::string& CNP) {
     int index_gasit = -1;
-     for (int i = 0; i < angajati.size(); ++i) {
-        if (angajati[i].getCNP() == CNP) {
+     for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+        if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
              index_gasit = i;
             break;
         }
     }
 
     if (index_gasit != -1) {
+
+
+
+        // std::cout << "Stergere obiect Angajat CNP " << CNP << "..." << std::endl;
+        delete angajati[index_gasit]; // !!! DELETE pe obiect !!!
+
 
         angajati.erase(angajati.begin() + index_gasit);
         return true;
@@ -300,223 +323,198 @@ bool Hotel::stergeAngajat(const std::string& CNP) {
     }
 }
 
-// Afiseaza toti angajatii
+
 void Hotel::afisareAngajati() const {
-    std::cout << "\n--- Angajatii Hotelului " << nume << " ---" << std::endl;
+    std::cout << "\n--- Angajatii Hotelului " << nume << std::endl;
     if (angajati.empty()) {
         std::cout << "Nu exista angajati inregistrati." << std::endl;
     } else {
-        for (int i = 0; i < angajati.size(); ++i) {
-            std::cout << angajati[i] << std::endl;
+        for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+
+            if (angajati[i] != 0) {
+                std::cout << *(angajati[i]) << std::endl;
+            } else {
+                std::cout << "  -> Pointer nul la index " << i << std::endl;
+            }
         }
     }
-    std::cout << "-----------------------------------" << std::endl;
+    std::cout << "------------------------------------------" << std::endl;
 }
 
 
-// --- Management Rezervari ---
 
-// Gaseste rezervare dupa ID, returneaza pointer sau 0
+
+
 Rezervare* Hotel::gasesteRezervare(int idRezervare) {
-     for (int i = 0; i < rezervari.size(); ++i) {
-        if (rezervari[i].getId() == idRezervare) {
-            return &rezervari[i];
+    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+        if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
+            return rezervari[i];
         }
     }
     return 0;
 }
-// Varianta const
 const Rezervare* Hotel::gasesteRezervare(int idRezervare) const {
-    for (int i = 0; i < rezervari.size(); ++i) {
-        if (rezervari[i].getId() == idRezervare) {
-            return &rezervari[i];
+    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+        if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
+            return rezervari[i];
         }
     }
     return 0;
 }
 
-// Creeaza o noua rezervare
+
 int Hotel::creeazaRezervare(const std::string& cnpClient, int numarCamera, const std::string& dataCheckIn,
                              const std::string& dataCheckOut, int numarZile) {
-
     Client* clientPtr = gasesteClient(cnpClient);
-    if (clientPtr == 0) {
-        std::cerr << "Eroare Creare Rezervare: Clientul cu CNP " << cnpClient << " nu exista." << std::endl;
-        return -1;
-    }
-
-
+    if (clientPtr == 0) { return -1; }
     Camera* cameraPtr = gasesteCamera(numarCamera);
-    if (cameraPtr == 0) {
-        std::cerr << "Eroare Creare Rezervare: Camera cu numarul " << numarCamera << " nu exista." << std::endl;
+    if (cameraPtr == 0) { return -1; }
+    if (cameraPtr->isOcupata()) {  return -1; }
+    if (numarZile <= 0) {  return -1; }
+
+
+    Rezervare* pNouaRezervare = 0;
+    try {
+         pNouaRezervare = new Rezervare(*clientPtr, *cameraPtr, dataCheckIn, dataCheckOut, numarZile);
+    } catch (const std::bad_alloc&) {
+        std::cerr << "Eroare critica: Nu s-a putut aloca memorie pentru rezervare!" << std::endl;
         return -1;
     }
 
 
-    if (cameraPtr->isOcupata()) {
-        std::cerr << "Eroare Creare Rezervare: Camera " << numarCamera << " este deja ocupata." << std::endl;
-        return -1;
-    }
+    rezervari.push_back(pNouaRezervare);
 
 
-    if (numarZile <= 0) {
-         std::cerr << "Eroare Creare Rezervare: Numarul de zile trebuie sa fie pozitiv." << std::endl;
-         return -1;
-     }
-
-
-    Rezervare nouaRezervare(*clientPtr, *cameraPtr, dataCheckIn, dataCheckOut, numarZile);
     cameraPtr->setOcupata(true);
-    rezervari.push_back(nouaRezervare);
-    clientPtr->setNumarRezervari(clientPtr->getNumarRezervari() + 1);
-    // Optional: Actualizeaza starea de client fidel
-    if (clientPtr->getNumarRezervari() >= 5 && !clientPtr->isClientFidel()) {
-      clientPtr->setClientFidel(true);
-       std::cout << "Clientul " << clientPtr->getNume() << " a devenit client fidel!" << std::endl;
-    }
 
-    std::cout << "Rezervare creata cu succes! ID: " << nouaRezervare.getId() << std::endl;
-    return nouaRezervare.getId();
+
+    clientPtr->setNumarRezervari(clientPtr->getNumarRezervari() + 1);
+
+    std::cout << "Rezervare (pointer) creata cu succes! ID: " << pNouaRezervare->getId() << std::endl;
+    return pNouaRezervare->getId();
 }
 
-// Anuleaza o rezervare dupa ID
+
 bool Hotel::anuleazaRezervare(int idRezervare) {
     int index_gasit = -1;
     for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
-        if (rezervari[i].getId() == idRezervare) {
+        if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
             index_gasit = i;
             break;
         }
     }
 
     if (index_gasit != -1) {
+        Rezervare* pRezervareDeSters = rezervari[index_gasit];
 
-        int numarCameraRezervata = rezervari[index_gasit].getCameraRef().getNumar();
 
+        int numarCameraRezervata = pRezervareDeSters->getCameraRef().getNumar();
         Camera* cameraPtr = gasesteCamera(numarCameraRezervata);
-
         if (cameraPtr != 0) {
             cameraPtr->setOcupata(false);
-            std::cout << "Info Anulare: Camera Nr " << numarCameraRezervata << " a fost eliberata." << std::endl;
         } else {
-
-            std::cerr << "Camera Nr " << numarCameraRezervata
-                      << " asociata rezervarii ID " << idRezervare << " nu a fost gasita in lista hotelului!" << std::endl;
+             std::cerr << "Avertisment Anulare: Camera Nr " << numarCameraRezervata << " negasita!" << std::endl;
         }
 
-        Client* clientPtr = gasesteClient(rezervari[index_gasit].getClientRef().getCNP());
+
+        Client* clientPtr = gasesteClient(pRezervareDeSters->getClientRef().getCNP());
         if (clientPtr != 0) {
              int nrRez = clientPtr->getNumarRezervari();
-             if (nrRez > 0) {
-                 clientPtr->setNumarRezervari(nrRez - 1);
-             }
-
-
-
-              if (clientPtr->getNumarRezervari() < 5 && clientPtr->isClientFidel()) {
-                  clientPtr->setClientFidel(false);
-              }
+             if (nrRez > 0) clientPtr->setNumarRezervari(nrRez - 1);
          }
+
+        // Stergem obiectul Rezervare de pe heap
+        delete pRezervareDeSters;
 
 
         rezervari.erase(rezervari.begin() + index_gasit);
+
+        std::cout << "Rezervare ID " << idRezervare << " anulata (obiect sters)." << std::endl;
         return true;
     } else {
-        // Rezervarea nu a fost gasita
-        std::cerr << "Rezervarea cu ID " << idRezervare << " nu a fost gasita." << std::endl;
+        std::cerr << "Eroare Anulare: Rezervarea cu ID " << idRezervare << " nu a fost gasita." << std::endl;
         return false;
     }
 }
 
-// Afiseaza toate rezervarile
+
 void Hotel::afisareRezervari() const {
-     std::cout << "\n--- Rezervarile Hotelului " << nume << " ---" << std::endl;
+     std::cout << "\n--- Rezervarile Hotelului " << nume << " (Pointeri) ---" << std::endl;
     if (rezervari.empty()) {
-        std::cout << "Nu exista rezervari inregistrate." << std::endl;
-    } else {
-        for (int i = 0; i < rezervari.size(); ++i) {
-            std::cout << rezervari[i] << "\n--------------------" << std::endl;
+        std::cout<<"Nu exista rezervari"<<'\n';
+    }
+    else {
+        for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+             if (rezervari[i] != 0) {
+                std::cout << *(rezervari[i]) << "\n--------------------" << std::endl; // Dereferentiere
+             }
         }
     }
 }
 
-// Afiseaza rezervarile unui anumit client
 void Hotel::afisareRezervariClient(const std::string& CNP) const {
-     std::cout << "\n--- Rezervarile Clientului cu CNP: " << CNP << " ---" << std::endl;
-     bool gasit = false;
-     const Client* clientPtr = gasesteClient(CNP);
-     if (clientPtr == 0) {
-         std::cout << "Clientul cu CNP " << CNP << " nu a fost gasit." << std::endl;
-         std::cout << "--------------------------------------------" << std::endl;
-         return;
-     }
-
-     std::cout << "Client: " << clientPtr->getPrenume() << " " << clientPtr->getNume() << std::endl;
-     std::cout << "--------------------------------------------" << std::endl;
-
-     // Parcurgem rezervarile
-     for (int i = 0; i < rezervari.size(); ++i) {
-         // Verificam daca CNP-ul clientului din rezervare corespunde
-         if (rezervari[i].getClientRef().getCNP() == CNP) {
-             std::cout << rezervari[i] << "\n--------------------" << std::endl;
+    std::cout << "\n--- Rezervarile Clientului cu CNP: " << CNP << " (Pointeri) ---" << std::endl;
+    bool gasit = false;
+    const Client* clientPtr = gasesteClient(CNP);
+    if (clientPtr == 0) { /*...*/ return; }
+    std::cout << "Client: " << clientPtr->getPrenume() << " " << clientPtr->getNume() << std::endl;
+    std::cout << "--------------------------------------------" << std::endl;
+    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+         if (rezervari[i] != 0 && rezervari[i]->getClientRef().getCNP() == CNP) {
+             std::cout << *(rezervari[i]) << "\n--------------------" << std::endl; // Dereferentiere
              gasit = true;
          }
      }
-
-      if (!gasit) {
-         std::cout << "Acest client nu are rezervari inregistrate." << std::endl;
-         std::cout << "--------------------------------------------" << std::endl;
+     if (!gasit) {
+         std::cout<<"Clientul cu CNP "<<CNP<<" nu are rezervari."<<'\n';
      }
 }
 
-// --- Alte Metode ---
 
-// Afiseaza detalii generale despre hotel
-// void Hotel::afisareGenerala(std::ostream& os) const {
-//     os << "\n========== Detalii Hotel ==========" << std::endl; // Folosim endl aici
-//     os << "Nume: " << nume << " (" << numarStele << " stele)" << std::endl;
-//     os << "Adresa: " << adresa << std::endl;
-//     os << "----------------------------------" << std::endl;
-//     os << "Numar total camere: " << camere.size() << std::endl;
-//     os << "Numar clienti inregistrati: " << clienti.size() << std::endl;
-//     os << "Numar angajati: " <<angajati.size()<< std::endl;
-//     os << "Numar rezervari active: " << rezervari.size() << std::endl;
-//     os << "=================================" << std::endl;
-// }
+void Hotel::afisareGenerala(std::ostream& os) const {
 
-// Calculeaza venitul total din rezervarile platite
+     os << "\n========== Detalii Hotel ==========" << std::endl;
+    os << "Nume: " << nume << " (" << numarStele << " stele)" << std::endl;
+    os << "Adresa: " << adresa << std::endl;
+    os << "----------------------------------" << std::endl;
+    os << "Numar total camere: " << static_cast<int>(camere.size()) << std::endl;
+    os << "Numar clienti inregistrati: " << static_cast<int>(clienti.size()) << std::endl;
+    os << "Numar angajati: " << static_cast<int>(angajati.size()) << std::endl;
+    os << "Numar rezervari active: " << static_cast<int>(rezervari.size()) << std::endl;
+    os << "=================================" << std::endl;
+}
+
 double Hotel::calculeazaVenitTotal() const {
     double venit = 0.0;
     for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
-        if (rezervari[i].isPlatita()) {
-            venit += rezervari[i].getPretTotal();
+
+        if (rezervari[i] != 0 && rezervari[i]->isPlatita()) {
+            venit += rezervari[i]->getPretTotal();
         }
     }
     return venit;
 }
 
-// Implementarea metodei virtuale din interfata IAfisabil
+// Implementare IAfisabil
 void Hotel::afisare(std::ostream& os) const {
-    os << "\n========== Detalii Hotel ==========" << std::endl; // Folosim endl aici
+
+    os << "\n========== Detalii Hotel ==========" << std::endl;
     os << "Nume: " << nume << " (" << numarStele << " stele)" << std::endl;
     os << "Adresa: " << adresa << std::endl;
     os << "----------------------------------" << std::endl;
-    os << "Numar total camere: " << camere.size() << std::endl;
-    os << "Numar clienti inregistrati: " << clienti.size() << std::endl;
-    os << "Numar angajati: " <<angajati.size()<< std::endl;
-    os << "Numar rezervari active: " << rezervari.size() << std::endl;
+    os << "Numar total camere: " << static_cast<int>(camere.size()) << std::endl;
+    os << "Numar clienti inregistrati: " << static_cast<int>(clienti.size()) << std::endl;
+    os << "Numar angajati: " << static_cast<int>(angajati.size()) << std::endl;
+    os << "Numar rezervari active: " << static_cast<int>(rezervari.size()) << std::endl;
     os << "=================================" << std::endl;
 }
 
-// --- Operatori Friend ---
 
-// Operatorul << apeleaza metoda afisare(os)
 std::ostream& operator<<(std::ostream& os, const Hotel& hotel) {
     hotel.afisare(os);
     return os;
 }
 
-// Operatorul >> citeste datele de baza ale hotelului
 std::istream& operator>>(std::istream& is, Hotel& hotel) {
     std::cout << "Nume hotel: ";
     std::getline(is, hotel.nume);

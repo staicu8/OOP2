@@ -19,10 +19,10 @@ Rezervare::Rezervare(const Rezervare& other)
       dataCheckOut(other.dataCheckOut), numarZile(other.numarZile),
       pretTotal(other.pretTotal), platita(other.platita) {}
 
-// Destructor
+
 Rezervare::~Rezervare() {}
 
-// Getteri și setteri
+
 int Rezervare::getId() const { return id; }
 const Client& Rezervare::getClientRef() const { return client; }
 void Rezervare::setClient(const Client& client) { this->client = client; }
@@ -53,16 +53,16 @@ void Rezervare::calculeazaPretTotal() {
     }
 }
 
-// Implementare IAfisabil
+
 void Rezervare::afisare(std::ostream& os) const {
     os << "Rezervare ID: " << id << ", Platita: " << (platita ? "Da" : "Nu") << "\n"; // Folosim \n pentru newline in stream
     os << "   Perioada: " << dataCheckIn << " - " << dataCheckOut << " (" << numarZile << " zile)\n";
     os << "   Pret Total: " << pretTotal << " RON\n";
-    os << "   Client: [" << client << "]\n"; // Folosim op<< din Client
-    os << "   Camera: [" << camera << "]";   // Folosim op<< din Camera
+    os << "   Client: [" << client << "]\n";
+    os << "   Camera: [" << camera << "]";
 }
 
-// Operatori
+
 Rezervare& Rezervare::operator=(const Rezervare& other) {
     if (this != &other) {
 
@@ -81,22 +81,18 @@ bool Rezervare::operator==(const Rezervare& other) const {
     return id == other.id;
 }
 
-// Operator << apeleaza acum afisare(os)
 std::ostream& operator<<(std::ostream& os, const Rezervare& rezervare) {
     rezervare.afisare(os);
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Rezervare& rezervare) {
-    std::cout << "Citirea directa a unei rezervari nu este suportata standard.\n";
-    std::cout << "Folositi metodele clasei Hotel pentru a crea rezervari.\n";
     std::cout << "Data Check-In: "; is >> rezervare.dataCheckIn;
     std::cout << "Data Check-Out: "; is >> rezervare.dataCheckOut;
     std::cout << "Numar Zile: "; is >> rezervare.numarZile;
     std::cout << "Este platita (1=Da, 0=Nu): ";
     int platitaInput;
     is >> platitaInput;
-
     rezervare.platita = (platitaInput == 1);
     rezervare.calculeazaPretTotal();
     return is;

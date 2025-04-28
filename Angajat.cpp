@@ -1,7 +1,7 @@
 #include "Angajat.h"
 #include <iostream>
 
-// Constructori
+
 Angajat::Angajat() : Persoana(), salariu(0.0), aniExperienta(0) {}
 
 Angajat::Angajat(std::string nume, std::string prenume, std::string CNP,
@@ -11,7 +11,7 @@ Angajat::Angajat(std::string nume, std::string prenume, std::string CNP,
 Angajat::Angajat(const Angajat& other)
     : Persoana(other), functie(other.functie), salariu(other.salariu), aniExperienta(other.aniExperienta) {}
 
-// Destructor
+
 Angajat::~Angajat() {}
 
 // Getteri și setteri
@@ -24,8 +24,8 @@ void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; }
 
 // Implementare/Suprascriere metode virtuale
 void Angajat::afisare(std::ostream& os) const {
-    Persoana::afisare(os); // Apelam implementarea din clasa de baza CU parametrul 'os'
-    // Adaugam specificul Angajatului
+    Persoana::afisare(os);
+
     os << ", Tip: " << getTip() // Apelam getTip() local
        << ", Functie: " << functie
        << ", Salariu: " << salariu << " RON"
@@ -33,13 +33,13 @@ void Angajat::afisare(std::ostream& os) const {
 }
 
 std::string Angajat::getTip() const {
-    return "Angajat"; // Implementarea specifica pentru Angajat
+    return "Angajat";
 }
 
-// Operatori
+
 Angajat& Angajat::operator=(const Angajat& other) {
     if (this != &other) {
-        Persoana::operator=(other); // Apelam op= din baza
+        Persoana::operator=(other);
         functie = other.functie;
         salariu = other.salariu;
         aniExperienta = other.aniExperienta;
@@ -48,22 +48,22 @@ Angajat& Angajat::operator=(const Angajat& other) {
 }
 
 bool Angajat::operator==(const Angajat& other) const {
-    // Comparam partea de Persoana si datele specifice Angajatului
+
     return Persoana::operator==(other) &&
            functie == other.functie &&
-           salariu == other.salariu && // Atentie la compararea double!
+           salariu == other.salariu &&
            aniExperienta == other.aniExperienta;
 }
 
-// Implementarea operatorilor stream (prieteni)
+
 std::ostream& operator<<(std::ostream& os, const Angajat& angajat) {
-    // Apeleaza metoda virtuala afisare(os) specifica (Angajat::afisare)
+
     angajat.afisare(os);
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Angajat& angajat) {
-    is >> static_cast<Persoana&>(angajat); // Citim datele de Persoana
+    is >> static_cast<Persoana&>(angajat);
     std::cout << "Functie: "; is >> angajat.functie;
     std::cout << "Salariu: "; is >> angajat.salariu;
     std::cout << "Ani experienta: "; is >> angajat.aniExperienta;
