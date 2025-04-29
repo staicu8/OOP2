@@ -4,11 +4,11 @@
 #include <string>
 #include <stdexcept>
 #include <limits>
-#include <cstddef> // Pentru NULL / 0
+#include <cstddef> 
 
 // --- Constructori ---
 Hotel::Hotel() : numarStele(0) {
-    // Vectorii de pointeri sunt initializati goi implicit
+   
     // std::cout << "Constructor Hotel (default) - Pointeri" << std::endl;
 }
 
@@ -283,7 +283,7 @@ const Angajat* Hotel::gasesteAngajat(const std::string& CNP) const {
 
 
 void Hotel::adaugaAngajat(Angajat* pAngajat) {
-    if (pAngajat == 0) { // Verificam pointerul primit
+    if (pAngajat == 0) {
         std::cerr << "Eroare Adaugare Angajat: Se incearca adaugarea unui pointer nul!" << std::endl;
         return;
     }
@@ -312,7 +312,7 @@ bool Hotel::stergeAngajat(const std::string& CNP) {
 
 
         // std::cout << "Stergere obiect Angajat CNP " << CNP << "..." << std::endl;
-        delete angajati[index_gasit]; // !!! DELETE pe obiect !!!
+        delete angajati[index_gasit]; 
 
 
         angajati.erase(angajati.begin() + index_gasit);
