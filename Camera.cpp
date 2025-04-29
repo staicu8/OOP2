@@ -27,12 +27,12 @@ void Camera::setTip(const TipCamera& tip) { this->tip = tip; }
 int Camera::getEtaj() const { return etaj; }
 void Camera::setEtaj(int etaj) { this->etaj = etaj; }
 
-// Implementare IAfisabil
+
 void Camera::afisare(std::ostream& os) const {
     os << "Camera Nr: " << numar << ", Etaj: " << etaj
        << ", Pret/Noapte: " << pretPeNoapte << " RON"
        << ", Stare: " << (ocupata ? "Ocupata" : "Libera") << "\n"
-       << "   [" << tip << "]"; // Folosim operatorul<< din TipCamera
+       << "   [" << tip << "]"; 
 }
 
 
