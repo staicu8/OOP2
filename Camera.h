@@ -1,11 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "TipCamera.h" // TipCamera include IAfisabil
+#include "TipCamera.h" 
 #include <string>
 #include <iostream>
 
-class Camera : public IAfisabil { // Mosteneste interfata
+class Camera : public IAfisabil {
 private:
     int numar;
     double pretPeNoapte;
