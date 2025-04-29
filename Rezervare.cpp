@@ -1,7 +1,7 @@
 #include "Rezervare.h"
 #include <iostream>
 
-// Definirea si initializarea membrului static
+
 int Rezervare::numarTotalRezervari = 0;
 
 // Constructori
