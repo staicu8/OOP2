@@ -11,7 +11,7 @@ TipCamera::TipCamera(const TipCamera& other)
     : denumire(other.denumire), numarMaximPersoane(other.numarMaximPersoane),
       areBalcon(other.areBalcon), areVedere(other.areVedere) {}
 
-// Destructor
+
 TipCamera::~TipCamera() {}
 
 // Getteri și setteri
@@ -50,7 +50,7 @@ bool TipCamera::operator==(const TipCamera& other) const {
            areVedere == other.areVedere;
 }
 
-// Operator << apeleaza acum afisare(os)
+
 std::ostream& operator<<(std::ostream& os, const TipCamera& tipCamera) {
     tipCamera.afisare(os);
     return os;
