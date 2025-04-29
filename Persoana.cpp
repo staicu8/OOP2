@@ -19,14 +19,14 @@ void Persoana::setVarsta(int varsta) { this->varsta = varsta; }
 Persoana& Persoana::operator=(const Persoana& other) { /* ... */ return *this; }
 bool Persoana::operator==(const Persoana& other) const { return CNP == other.CNP; }
 std::istream& operator>>(std::istream& is, Persoana& persoana) {
-    std::cout << "Nume: "; // <-- Promptul
-    is >> persoana.nume;   // <-- Citirea
-    std::cout << "Prenume: "; // <-- Promptul
-    is >> persoana.prenume; // <-- Citirea
-    std::cout << "CNP: "; // <-- Promptul
-    is >> persoana.CNP;     // <-- Citirea
-    std::cout << "Varsta: "; // <-- Promptul
-    is >> persoana.varsta; // <-- Citirea
+    std::cout << "Nume: ";
+    is >> persoana.nume;   
+    std::cout << "Prenume: "; 
+    is >> persoana.prenume;
+    std::cout << "CNP: ";
+    is >> persoana.CNP;    
+    std::cout << "Varsta: "; 
+    is >> persoana.varsta; 
     return is;
 }
 
