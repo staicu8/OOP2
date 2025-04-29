@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "Persoana.h" // Include si IAfisabil indirect
+#include "Persoana.h" 
 #include <string>
 #include <iostream>
 
