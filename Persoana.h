@@ -3,9 +3,9 @@
 
 #include <string>
 #include <iostream>
-#include "IAfisabil.h" // Include noua interfata
+#include "IAfisabil.h" 
 
-// Persoana este o clasa de baza abstracta SI implementeaza IAfisabil
+
 class Persoana : public IAfisabil {
 private:
     std::string nume;
