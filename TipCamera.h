@@ -3,9 +3,9 @@
 
 #include <string>
 #include <iostream>
-#include "IAfisabil.h" // Include interfata
+#include "IAfisabil.h"
 
-class TipCamera : public IAfisabil { // Mosteneste interfata
+class TipCamera : public IAfisabil { 
 private:
     std::string denumire;
     int numarMaximPersoane;
@@ -28,10 +28,10 @@ public:
     bool hasVedere() const;
     void setAreVedere(bool areVedere);
 
-    // Implementarea interfetei IAfisabil
+
     void afisare(std::ostream& os) const;
 
-    // Operatori
+
     TipCamera& operator=(const TipCamera& other);
     bool operator==(const TipCamera& other) const;
     friend std::ostream& operator<<(std::ostream& os, const TipCamera& tipCamera);
