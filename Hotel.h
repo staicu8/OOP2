@@ -2,10 +2,9 @@
 #define HOTEL_H
 
 #include <string>
-#include <vector> // Necesar pentru std::vector
+#include <vector> 
 #include <iostream>
 
-// Includem doar headerele claselor ALE CAROR POINTERI ii stocam
 #include "Camera.h"
 #include "Client.h"
 #include "Angajat.h"
@@ -33,7 +32,7 @@ public:
 
     Hotel();
     Hotel(const std::string& nume, const std::string& adresa, int numarStele);
-    ~Hotel(); // ACUM este FOARTE important
+    ~Hotel(); 
 
     // Getteri / Setteri
     std::string getNume() const;
