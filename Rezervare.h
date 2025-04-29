@@ -1,8 +1,8 @@
 #ifndef REZERVARE_H
 #define REZERVARE_H
 
-#include "Client.h" // Client include Persoana->IAfisabil
-#include "Camera.h" // Camera include TipCamera->IAfisabil
+#include "Client.h" 
+#include "Camera.h" 
 #include <string>
 #include <iostream>
 
