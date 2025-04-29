@@ -22,11 +22,11 @@ void Angajat::setSalariu(double salariu) { this->salariu = salariu; }
 int Angajat::getAniExperienta() const { return aniExperienta; }
 void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; }
 
-// Implementare/Suprascriere metode virtuale
+// Suprascriere metode virtuale
 void Angajat::afisare(std::ostream& os) const {
     Persoana::afisare(os);
 
-    os << ", Tip: " << getTip() // Apelam getTip() local
+    os << ", Tip: " << getTip() 
        << ", Functie: " << functie
        << ", Salariu: " << salariu << " RON"
        << ", Experienta: " << aniExperienta << " ani";
