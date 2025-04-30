@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "TipCamera.h" // TipCamera include IAfisabil
+#include "TipCamera.h" 
 #include <string>
 #include <iostream>
 
