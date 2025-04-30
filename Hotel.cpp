@@ -4,12 +4,11 @@
 #include <string>
 #include <stdexcept>
 #include <limits>
-#include <cstddef> // Pentru NULL / 0
+#include <cstddef>
 
-// --- Constructori ---
+
 Hotel::Hotel() : numarStele(0) {
-    // Vectorii de pointeri sunt initializati goi implicit
-    // std::cout << "Constructor Hotel (default) - Pointeri" << std::endl;
+
 }
 
 Hotel::Hotel(const std::string& nume, const std::string& adresa, int numarStele)
@@ -19,37 +18,37 @@ Hotel::Hotel(const std::string& nume, const std::string& adresa, int numarStele)
 
 
 Hotel::~Hotel() {
-    // std::cout << "Destructor Hotel: Eliberare memorie pentru '" << nume << "'..." << std::endl;
+
 
 
     //std::cout << "  - Stergere Camere..." << std::endl;
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         delete camere[i];
     }
 
 
 
     //std::cout << "  - Stergere Clienti..." << std::endl;
-    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+    for (int i = 0; i < clienti.size(); ++i) {
         delete clienti[i];
     }
     clienti.clear();
 
 
     //std::cout << "  - Stergere Angajati..." << std::endl;
-    for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+    for (int i = 0; i < angajati.size(); ++i) {
         delete angajati[i];
     }
     angajati.clear();
 
 
     // std::cout << "  - Stergere Rezervari..." << std::endl;
-    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
-        delete rezervari[i]; // Apeleaza destructorul Rezervare
+    for (int i = 0; i < rezervari.size(); ++i) {
+        delete rezervari[i];
     }
     rezervari.clear();
 
-    // std::cout << "Destructor Hotel: Memorie eliberata." << std::endl;
+
 }
 
 
@@ -63,7 +62,7 @@ void Hotel::setNumarStele(int stele) { if (stele >= 0 && stele <= 5) this->numar
 
 
 Camera* Hotel::gasesteCamera(int numarCamera) {
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
 
         if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
             return camere[i];
@@ -72,7 +71,7 @@ Camera* Hotel::gasesteCamera(int numarCamera) {
     return 0;
 }
 const Camera* Hotel::gasesteCamera(int numarCamera) const {
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
             return camere[i];
         }
@@ -90,13 +89,13 @@ void Hotel::adaugaCamera(Camera* pCamera) {
 
         return;
     }
-    camere.push_back(pCamera); // Adaugam pointerul in vector
-    std::cout << "Camera Nr " << pCamera->getNumar() << " (pointer) adaugata." << std::endl;
+    camere.push_back(pCamera);
+    std::cout << "Camera Nr " << pCamera->getNumar() << " adaugata." << std::endl;
 }
 
 bool Hotel::stergeCamera(int numarCamera) {
     int index_gasit = -1;
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
         if (camere[i] != 0 && camere[i]->getNumar() == numarCamera) {
             index_gasit = i;
             break;
@@ -106,7 +105,7 @@ bool Hotel::stergeCamera(int numarCamera) {
     if (index_gasit != -1) {
 
         bool folosita_in_rezervare = false;
-        for (int j = 0; j < static_cast<int>(rezervari.size()); ++j) {
+        for (int j = 0; j < rezervari.size(); ++j) {
 
              if (rezervari[j] != 0 && rezervari[j]->getCameraRef().getNumar() == numarCamera) {
                 folosita_in_rezervare = true;
@@ -119,7 +118,7 @@ bool Hotel::stergeCamera(int numarCamera) {
         }
 
 
-        delete camere[index_gasit]; //
+        delete camere[index_gasit];
 
 
         camere.erase(camere.begin() + index_gasit);
@@ -135,12 +134,12 @@ void Hotel::afisareCamere() const {
     if (camere.empty()) {
         std::cout << "Nu exista camere inregistrate." << std::endl;
     } else {
-        for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+        for (int i = 0; i < camere.size(); ++i) {
             if (camere[i] != 0) {
                 std::cout << *(camere[i]) << std::endl;
-            } else {
-                 std::cout << "  -> Pointer nul la index " << i << std::endl;
             }
+
+
         }
     }
 
@@ -149,7 +148,7 @@ void Hotel::afisareCamereLibere() const {
     std::cout << "\n--- Camere Libere ---" << std::endl;
     bool gasit = false;
 
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
 
         if (camere[i] != 0) {
 
@@ -168,7 +167,7 @@ void Hotel::afisareCamereOcupate() const {
     std::cout << "\n--- Camere Ocupate ---" << std::endl;
     bool gasit = false;
 
-    for (int i = 0; i < static_cast<int>(camere.size()); ++i) {
+    for (int i = 0; i < camere.size(); ++i) {
 
         if (camere[i] != 0) {
 
@@ -188,7 +187,7 @@ void Hotel::afisareCamereOcupate() const {
 
 
 Client* Hotel::gasesteClient(const std::string& CNP) {
-    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+    for (int i = 0; i < clienti.size(); ++i) {
         if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
             return clienti[i];
         }
@@ -196,7 +195,7 @@ Client* Hotel::gasesteClient(const std::string& CNP) {
     return 0;
 }
 const Client* Hotel::gasesteClient(const std::string& CNP) const {
-     for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+     for (int i = 0; i < clienti.size(); ++i) {
         if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
             return clienti[i];
         }
@@ -214,12 +213,12 @@ void Hotel::adaugaClient(Client* pClient) {
         return;
     }
     clienti.push_back(pClient);
-    std::cout << "Clientul " << pClient->getPrenume() << " (pointer) adaugat." << std::endl;
+    std::cout << "Clientul " << pClient->getPrenume() << " adaugat." << std::endl;
 }
 
 bool Hotel::stergeClient(const std::string& CNP) {
     int index_gasit = -1;
-    for (int i = 0; i < static_cast<int>(clienti.size()); ++i) {
+    for (int i = 0; i < clienti.size(); ++i) {
         if (clienti[i] != 0 && clienti[i]->getCNP() == CNP) {
             index_gasit = i;
             break;
@@ -228,7 +227,7 @@ bool Hotel::stergeClient(const std::string& CNP) {
     if (index_gasit != -1) {
 
          bool are_rezervari = false;
-         for(int j=0; j<static_cast<int>(rezervari.size()); ++j) {
+         for(int j=0; j<rezervari.size(); ++j) {
              if(rezervari[j] != 0 && rezervari[j]->getClientRef().getCNP() == CNP) {
                  are_rezervari = true;
                  break;
@@ -263,7 +262,7 @@ void Hotel::afisareClienti() const {
 
 
 Angajat* Hotel::gasesteAngajat(const std::string& CNP) {
-    for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+    for (int i = 0; i < angajati.size(); ++i) {
         if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
             return angajati[i];
         }
@@ -273,7 +272,7 @@ Angajat* Hotel::gasesteAngajat(const std::string& CNP) {
 
 
 const Angajat* Hotel::gasesteAngajat(const std::string& CNP) const {
-     for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+     for (int i = 0; i < angajati.size(); ++i) {
         if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
             return angajati[i];
         }
@@ -283,8 +282,8 @@ const Angajat* Hotel::gasesteAngajat(const std::string& CNP) const {
 
 
 void Hotel::adaugaAngajat(Angajat* pAngajat) {
-    if (pAngajat == 0) { // Verificam pointerul primit
-        std::cerr << "Eroare Adaugare Angajat: Se incearca adaugarea unui pointer nul!" << std::endl;
+    if (pAngajat == 0) {
+        std::cerr << "Eroare Adaugare Angajat" << std::endl;
         return;
     }
 
@@ -294,13 +293,13 @@ void Hotel::adaugaAngajat(Angajat* pAngajat) {
         return;
     }
     angajati.push_back(pAngajat);
-    std::cout << "Angajatul " << pAngajat->getPrenume() << " (pointer) adaugat." << std::endl;
+    std::cout << "Angajatul " << pAngajat->getPrenume() << " adaugat." << std::endl;
 }
 
 
 bool Hotel::stergeAngajat(const std::string& CNP) {
     int index_gasit = -1;
-     for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+     for (int i = 0; i < angajati.size(); ++i) {
         if (angajati[i] != 0 && angajati[i]->getCNP() == CNP) {
              index_gasit = i;
             break;
@@ -311,8 +310,8 @@ bool Hotel::stergeAngajat(const std::string& CNP) {
 
 
 
-        // std::cout << "Stergere obiect Angajat CNP " << CNP << "..." << std::endl;
-        delete angajati[index_gasit]; // !!! DELETE pe obiect !!!
+        // std::cout << "Stergere Angajat CNP " << CNP  << std::endl;
+        delete angajati[index_gasit];
 
 
         angajati.erase(angajati.begin() + index_gasit);
@@ -329,13 +328,13 @@ void Hotel::afisareAngajati() const {
     if (angajati.empty()) {
         std::cout << "Nu exista angajati inregistrati." << std::endl;
     } else {
-        for (int i = 0; i < static_cast<int>(angajati.size()); ++i) {
+        for (int i = 0; i < angajati.size(); ++i) {
 
             if (angajati[i] != 0) {
                 std::cout << *(angajati[i]) << std::endl;
-            } else {
-                std::cout << "  -> Pointer nul la index " << i << std::endl;
             }
+
+
         }
     }
     std::cout << "------------------------------------------" << std::endl;
@@ -346,7 +345,7 @@ void Hotel::afisareAngajati() const {
 
 
 Rezervare* Hotel::gasesteRezervare(int idRezervare) {
-    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+    for (int i = 0; i < rezervari.size(); ++i) {
         if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
             return rezervari[i];
         }
@@ -354,7 +353,7 @@ Rezervare* Hotel::gasesteRezervare(int idRezervare) {
     return 0;
 }
 const Rezervare* Hotel::gasesteRezervare(int idRezervare) const {
-    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+    for (int i = 0; i < rezervari.size(); ++i) {
         if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
             return rezervari[i];
         }
@@ -390,14 +389,14 @@ int Hotel::creeazaRezervare(const std::string& cnpClient, int numarCamera, const
 
     clientPtr->setNumarRezervari(clientPtr->getNumarRezervari() + 1);
 
-    std::cout << "Rezervare (pointer) creata cu succes! ID: " << pNouaRezervare->getId() << std::endl;
+    std::cout << "Rezervare creata cu succes! ID: " << pNouaRezervare->getId() << std::endl;
     return pNouaRezervare->getId();
 }
 
 
 bool Hotel::anuleazaRezervare(int idRezervare) {
     int index_gasit = -1;
-    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+    for (int i = 0; i < rezervari.size(); ++i) {
         if (rezervari[i] != 0 && rezervari[i]->getId() == idRezervare) {
             index_gasit = i;
             break;
@@ -423,13 +422,13 @@ bool Hotel::anuleazaRezervare(int idRezervare) {
              if (nrRez > 0) clientPtr->setNumarRezervari(nrRez - 1);
          }
 
-        // Stergem obiectul Rezervare de pe heap
+
         delete pRezervareDeSters;
 
 
         rezervari.erase(rezervari.begin() + index_gasit);
 
-        std::cout << "Rezervare ID " << idRezervare << " anulata (obiect sters)." << std::endl;
+        std::cout << "Rezervare ID " << idRezervare << " anulata." << std::endl;
         return true;
     } else {
         std::cerr << "Eroare Anulare: Rezervarea cu ID " << idRezervare << " nu a fost gasita." << std::endl;
@@ -439,29 +438,31 @@ bool Hotel::anuleazaRezervare(int idRezervare) {
 
 
 void Hotel::afisareRezervari() const {
-     std::cout << "\n--- Rezervarile Hotelului " << nume << " (Pointeri) ---" << std::endl;
+     std::cout << "\n--- Rezervarile Hotelului " << nume  << std::endl;
     if (rezervari.empty()) {
         std::cout<<"Nu exista rezervari"<<'\n';
     }
     else {
-        for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+        for (int i = 0; i < rezervari.size(); ++i) {
              if (rezervari[i] != 0) {
-                std::cout << *(rezervari[i]) << "\n--------------------" << std::endl; // Dereferentiere
+                std::cout << *(rezervari[i]) << "\n--------------------" << std::endl;
              }
         }
     }
 }
 
 void Hotel::afisareRezervariClient(const std::string& CNP) const {
-    std::cout << "\n--- Rezervarile Clientului cu CNP: " << CNP << " (Pointeri) ---" << std::endl;
+    std::cout << "\n--- Rezervarile Clientului cu CNP: " << CNP << std::endl;
     bool gasit = false;
     const Client* clientPtr = gasesteClient(CNP);
-    if (clientPtr == 0) { /*...*/ return; }
+    if (clientPtr == 0) {
+        return;
+    }
     std::cout << "Client: " << clientPtr->getPrenume() << " " << clientPtr->getNume() << std::endl;
     std::cout << "--------------------------------------------" << std::endl;
     for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
          if (rezervari[i] != 0 && rezervari[i]->getClientRef().getCNP() == CNP) {
-             std::cout << *(rezervari[i]) << "\n--------------------" << std::endl; // Dereferentiere
+             std::cout << *(rezervari[i]) << "\n--------------------" << std::endl;
              gasit = true;
          }
      }
@@ -477,16 +478,16 @@ void Hotel::afisareGenerala(std::ostream& os) const {
     os << "Nume: " << nume << " (" << numarStele << " stele)" << std::endl;
     os << "Adresa: " << adresa << std::endl;
     os << "----------------------------------" << std::endl;
-    os << "Numar total camere: " << static_cast<int>(camere.size()) << std::endl;
-    os << "Numar clienti inregistrati: " << static_cast<int>(clienti.size()) << std::endl;
-    os << "Numar angajati: " << static_cast<int>(angajati.size()) << std::endl;
-    os << "Numar rezervari active: " << static_cast<int>(rezervari.size()) << std::endl;
+    os << "Numar total camere: " << camere.size() << std::endl;
+    os << "Numar clienti inregistrati: " << clienti.size() << std::endl;
+    os << "Numar angajati: " << angajati.size() << std::endl;
+    os << "Numar rezervari active: " << rezervari.size() << std::endl;
     os << "=================================" << std::endl;
 }
 
 double Hotel::calculeazaVenitTotal() const {
     double venit = 0.0;
-    for (int i = 0; i < static_cast<int>(rezervari.size()); ++i) {
+    for (int i = 0; i < rezervari.size(); ++i) {
 
         if (rezervari[i] != 0 && rezervari[i]->isPlatita()) {
             venit += rezervari[i]->getPretTotal();
@@ -495,17 +496,16 @@ double Hotel::calculeazaVenitTotal() const {
     return venit;
 }
 
-// Implementare IAfisabil
 void Hotel::afisare(std::ostream& os) const {
 
     os << "\n========== Detalii Hotel ==========" << std::endl;
     os << "Nume: " << nume << " (" << numarStele << " stele)" << std::endl;
     os << "Adresa: " << adresa << std::endl;
     os << "----------------------------------" << std::endl;
-    os << "Numar total camere: " << static_cast<int>(camere.size()) << std::endl;
-    os << "Numar clienti inregistrati: " << static_cast<int>(clienti.size()) << std::endl;
-    os << "Numar angajati: " << static_cast<int>(angajati.size()) << std::endl;
-    os << "Numar rezervari active: " << static_cast<int>(rezervari.size()) << std::endl;
+    os << "Numar total camere: " << camere.size() << std::endl;
+    os << "Numar clienti inregistrati: " << clienti.size() << std::endl;
+    os << "Numar angajati: " << angajati.size() << std::endl;
+    os << "Numar rezervari active: " << rezervari.size() << std::endl;
     os << "=================================" << std::endl;
 }
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-class Camera : public IAfisabil { // Mosteneste interfata
+class Camera : public IAfisabil {
 private:
     int numar;
     double pretPeNoapte;
@@ -32,7 +32,7 @@ public:
     int getEtaj() const;
     void setEtaj(int etaj);
 
-    // Implementarea interfetei IAfisabil
+
     void afisare(std::ostream& os) const;
 
     Camera& operator=(const Camera& other);

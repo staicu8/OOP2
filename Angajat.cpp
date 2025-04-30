@@ -14,7 +14,7 @@ Angajat::Angajat(const Angajat& other)
 
 Angajat::~Angajat() {}
 
-// Getteri și setteri
+
 std::string Angajat::getFunctie() const { return functie; }
 void Angajat::setFunctie(const std::string& functie) { this->functie = functie; }
 double Angajat::getSalariu() const { return salariu; }
@@ -22,7 +22,7 @@ void Angajat::setSalariu(double salariu) { this->salariu = salariu; }
 int Angajat::getAniExperienta() const { return aniExperienta; }
 void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; }
 
-// Implementare/Suprascriere metode virtuale
+
 void Angajat::afisare(std::ostream& os) const {
     Persoana::afisare(os);
 

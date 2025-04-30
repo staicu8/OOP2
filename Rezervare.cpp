@@ -1,10 +1,10 @@
 #include "Rezervare.h"
 #include <iostream>
 
-// Definirea si initializarea membrului static
+
 int Rezervare::numarTotalRezervari = 0;
 
-// Constructori
+
 Rezervare::Rezervare() : id(++numarTotalRezervari), numarZile(0), pretTotal(0.0), platita(false) {}
 
 Rezervare::Rezervare(const Client& client, const Camera& camera, const std::string& dataCheckIn,
@@ -44,7 +44,7 @@ double Rezervare::getPretTotal() const { return pretTotal; }
 bool Rezervare::isPlatita() const { return platita; }
 void Rezervare::setPlatita(bool platita) { this->platita = platita; }
 
-// Metode
+
 void Rezervare::calculeazaPretTotal() {
     if (numarZile > 0) {
         pretTotal = numarZile * camera.getPretPeNoapte();

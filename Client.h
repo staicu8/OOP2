@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "Persoana.h" // Include si IAfisabil indirect
+#include "Persoana.h"
 #include <string>
 #include <iostream>
 
@@ -17,7 +17,7 @@ public:
     Client(const Client& other);
     ~Client();
 
-    // Getteri / Setteri
+
     int getNumarRezervari() const;
     void setNumarRezervari(int numarRezervari);
     bool isClientFidel() const;

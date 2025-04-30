@@ -1,7 +1,7 @@
 #include "TipCamera.h"
 #include <iostream>
 
-// Constructori
+
 TipCamera::TipCamera() : numarMaximPersoane(0), areBalcon(false), areVedere(false) {}
 
 TipCamera::TipCamera(const std::string& denumire, int numarMaximPersoane, bool areBalcon, bool areVedere)
@@ -11,10 +11,10 @@ TipCamera::TipCamera(const TipCamera& other)
     : denumire(other.denumire), numarMaximPersoane(other.numarMaximPersoane),
       areBalcon(other.areBalcon), areVedere(other.areVedere) {}
 
-// Destructor
+
 TipCamera::~TipCamera() {}
 
-// Getteri și setteri
+
 std::string TipCamera::getDenumire() const { return denumire; }
 void TipCamera::setDenumire(const std::string& denumire) { this->denumire = denumire; }
 int TipCamera::getNumarMaximPersoane() const { return numarMaximPersoane; }
@@ -24,7 +24,7 @@ void TipCamera::setAreBalcon(bool areBalcon) { this->areBalcon = areBalcon; }
 bool TipCamera::hasVedere() const { return areVedere; }
 void TipCamera::setAreVedere(bool areVedere) { this->areVedere = areVedere; }
 
-// Implementare IAfisabil
+
 void TipCamera::afisare(std::ostream& os) const {
     os << "Tip: " << denumire
        << ", Capacitate: " << numarMaximPersoane << " pers"
@@ -32,7 +32,7 @@ void TipCamera::afisare(std::ostream& os) const {
        << ", Vedere: " << (areVedere ? "Da" : "Nu");
 }
 
-// Operatori
+
 TipCamera& TipCamera::operator=(const TipCamera& other) {
     if (this != &other) {
         denumire = other.denumire;
@@ -50,7 +50,7 @@ bool TipCamera::operator==(const TipCamera& other) const {
            areVedere == other.areVedere;
 }
 
-// Operator << apeleaza acum afisare(os)
+
 std::ostream& operator<<(std::ostream& os, const TipCamera& tipCamera) {
     tipCamera.afisare(os);
     return os;

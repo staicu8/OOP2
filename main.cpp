@@ -18,7 +18,7 @@ void clearInputBuffer() {
 
 
 void afiseazaMeniu() {
-    std::cout << "\n========== Meniu Gestiune Hotel (Simplificat C++98) ==========\n";
+    std::cout << "\n========== Meniu Gestiune Hotel  ==========\n";
     std::cout << " 1. Adauga Camera\n";
     std::cout << " 2. Adauga Client\n";
     std::cout << " 3. Adauga Angajat\n";
