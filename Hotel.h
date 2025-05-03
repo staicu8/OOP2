@@ -61,8 +61,8 @@ public:
     Rezervare* gasesteRezervare(int idRezervare);
     const Rezervare* gasesteRezervare(int idRezervare) const;
 
-    int creeazaRezervare(const std::string& cnpClient, int numarCamera, const std::string& dataCheckIn,
-                         const std::string& dataCheckOut, int numarZile);
+    int creeazaRezervare(const std::string &cnpClient, int numarCamera, const Data &dataCheckIn,
+                         const Data &dataCheckOut, int numarZile);
 
 
     void afisareCamere() const;

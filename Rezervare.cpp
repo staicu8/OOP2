@@ -1,14 +1,14 @@
 #include "Rezervare.h"
 #include <iostream>
-
+#include <data.h>
 
 int Rezervare::numarTotalRezervari = 0;
 
 
 Rezervare::Rezervare() : id(++numarTotalRezervari), numarZile(0), pretTotal(0.0), platita(false) {}
 
-Rezervare::Rezervare(const Client& client, const Camera& camera, const std::string& dataCheckIn,
-                     const std::string& dataCheckOut, int numarZile, bool platita)
+Rezervare::Rezervare(const Client& client, const Camera& camera, const Data& dataCheckIn,
+                     const Data& dataCheckOut, int numarZile, bool platita)
     : id(++numarTotalRezervari), client(client), camera(camera), dataCheckIn(dataCheckIn),
       dataCheckOut(dataCheckOut), numarZile(numarZile), platita(platita) {
     calculeazaPretTotal();
@@ -31,10 +31,10 @@ void Rezervare::setCamera(const Camera& camera) {
      this->camera = camera;
      calculeazaPretTotal();
 }
-std::string Rezervare::getDataCheckIn() const { return dataCheckIn; }
-void Rezervare::setDataCheckIn(const std::string& data) { this->dataCheckIn = data; }
-std::string Rezervare::getDataCheckOut() const { return dataCheckOut; }
-void Rezervare::setDataCheckOut(const std::string& data) { this->dataCheckOut = data; }
+Data Rezervare::getDataCheckIn() const { return dataCheckIn; }
+void Rezervare::setDataCheckIn(const Data& data) { this->dataCheckIn.zi = data.zi; }
+Data Rezervare::getDataCheckOut() const { return dataCheckOut; }
+void Rezervare::setDataCheckOut(const Data& data) { this->dataCheckOut.zi = data.zi; }
 int Rezervare::getNumarZile() const { return numarZile; }
 void Rezervare::setNumarZile(int zile) {
     this->numarZile = zile > 0 ? zile : 0;
@@ -55,7 +55,7 @@ void Rezervare::calculeazaPretTotal() {
 
 
 void Rezervare::afisare(std::ostream& os) const {
-    os << "Rezervare ID: " << id << ", Platita: " << (platita ? "Da" : "Nu") << "\n"; // Folosim \n pentru newline in stream
+    os << "Rezervare ID: " << id << ", Platita: " << (platita ? "Da" : "Nu") << "\n";
     os << "   Perioada: " << dataCheckIn << " - " << dataCheckOut << " (" << numarZile << " zile)\n";
     os << "   Pret Total: " << pretTotal << " RON\n";
     os << "   Client: [" << client << "]\n";

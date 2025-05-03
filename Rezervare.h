@@ -5,23 +5,23 @@
 #include "Camera.h"
 #include <string>
 #include <iostream>
-
+#include <data.h>
 class Rezervare : public IAfisabil {
 private:
     static int numarTotalRezervari;
     int id;
     Client client;
     Camera camera;
-    std::string dataCheckIn;
-    std::string dataCheckOut;
+    Data dataCheckIn;
+    Data dataCheckOut;
     int numarZile;
     double pretTotal;
     bool platita;
 
 public:
     Rezervare();
-    Rezervare(const Client& client, const Camera& camera, const std::string& dataCheckIn,
-              const std::string& dataCheckOut, int numarZile, bool platita = false);
+    Rezervare(const Client& client, const Camera& camera, const Data& dataCheckIn,
+              const Data& dataCheckOut, int numarZile, bool platita = false);
     Rezervare(const Rezervare& other);
     ~Rezervare();
 
@@ -30,10 +30,10 @@ public:
     void setClient(const Client& client);
     const Camera& getCameraRef() const;
     void setCamera(const Camera& camera);
-    std::string getDataCheckIn() const;
-    void setDataCheckIn(const std::string& data);
-    std::string getDataCheckOut() const;
-    void setDataCheckOut(const std::string& data);
+    Data getDataCheckIn() const;
+    void setDataCheckIn(const Data& data);
+    Data getDataCheckOut() const;
+    void setDataCheckOut(const Data& data);
     int getNumarZile() const;
     void setNumarZile(int zile);
     double getPretTotal() const;

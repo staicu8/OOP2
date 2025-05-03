@@ -1,22 +1,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <limits>
 #include <iomanip>
-#include <cstddef>
-
-
 #include "Hotel.h"
 #include "TipCamera.h"
+#include "Camera.h"
 #include "Client.h"
 #include "Angajat.h"
-
-void clearInputBuffer() {
-
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-
+#include "Persoana.h"
+#include "Rezervare.h"
+#include "data.h"
 void afiseazaMeniu() {
     std::cout << "\n========== Meniu Gestiune Hotel  ==========\n";
     std::cout << " 1. Adauga Camera\n";
@@ -35,15 +28,17 @@ void afiseazaMeniu() {
     std::cout << "14. Calculeaza si Afiseaza Venit Total\n";
     std::cout << "15. Afiseaza Detalii Hotel \n";
     std::cout << " 0. Iesire\n";
-    std::cout << "============================================================\n";
+    std::cout << "======================================================\n";
     std::cout << "Alegeti o optiune: ";
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(2);
 
-    Hotel hotelPrincipal("Staicu's Hotel", "Strada Grozavesti", 5);
+    Hotel hotelPrincipal("Staicu's Hotel  ", "Strada Grozavesti", 5);
     std::cout << "Bun venit la sistemul de gestiune pentru " << hotelPrincipal.getNume() << "!" << std::endl;
+
+
     TipCamera tipSingle("Single", 1, false, false);
     TipCamera tipDouble("Double", 2, true, false);
     TipCamera tipApartament("Apartament", 4, true, true);
@@ -55,7 +50,6 @@ int main() {
     hotelPrincipal.adaugaClient(new Client("Popescu", "Ion", "1900101123456", 34));
     hotelPrincipal.adaugaClient(new Client("Ionescu", "Andreea", "2950302654321", 29));
 
-    //Downcasting
     Persoana* cl=new Client("Mircea","Andrei","2219910000121",20);
     hotelPrincipal.adaugaClient(static_cast<Client*> (cl));
 
@@ -63,106 +57,90 @@ int main() {
     hotelPrincipal.adaugaAngajat(static_cast<Angajat*> (ang));
     hotelPrincipal.adaugaAngajat(new Angajat("Staicu", "Octavian", "1801122000000", 50, "Manager", 8500.00, 20));
 
-
-    int optiune;
+    int optiune = -1;
     do {
-
-
-
         afiseazaMeniu();
 
-        while (!(std::cin >> optiune)) {
-            std::cerr << "Input invalid. Introduceti un numar: ";
-            std::cin.clear();
-            clearInputBuffer();
-        }
-        clearInputBuffer();
-        switch (optiune) {
-            case 1: { // Adauga Camera
-                Camera* pCamNoua = new Camera();
-                std::cout << "\n--- Adaugare Camera Noua ---\n";
-                std::cin >> (*pCamNoua);
-                hotelPrincipal.adaugaCamera(pCamNoua);
+        std::cout << "Introduceti optiunea (doar cifre!): ";
+        std::cin >> optiune;
 
+
+        switch (optiune) {
+            case 1: {
+                Camera* pCamNoua = new Camera();
+
+                std::cout << "\n--- Adaugare Camera Noua ---\n";
+
+                std::cin >> (*pCamNoua);
+
+                hotelPrincipal.adaugaCamera(pCamNoua);
                 break;
             }
-             case 2: { // Adauga Client
+            case 2: {
                 Client* pClientNou = new Client();
+
                 std::cout << "\n--- Adaugare Client Nou ---\n";
+
                 std::cin >> (*pClientNou);
 
                 hotelPrincipal.adaugaClient(pClientNou);
-
-
                 break;
             }
-             case 3: { // Adauga Angajat
-                 Angajat* pAngajatNou = new Angajat();
-                 std::cout << "\n--- Adaugare Angajat Nou ---\n";
-                 std::cin >> (*pAngajatNou);
-                  if(!std::cin) {
-                    std::cerr << "Eroare la citirea datelor angajatului!" << std::endl;
-                    delete pAngajatNou;
-                    std::cin.clear();
-                    clearInputBuffer();
-                 } else {
-                    hotelPrincipal.adaugaAngajat(pAngajatNou);
+            case 3: {
+                Angajat* pAngajatNou = new Angajat();
 
-                 }
-                 break;
+                std::cout << "\n--- Adaugare Angajat Nou ---\n";
+
+                std::cin >> (*pAngajatNou);
+
+                hotelPrincipal.adaugaAngajat(pAngajatNou);
+                break;
             }
-           case 4: { // Creeaza Rezervare
-                std::string cnp, dataIn, dataOut; int nrCam = 0, nrZile = 0; // Initializam numerele
+            case 4: {
+                std::string cnp, dataIn, dataOut; int nrCam = 0, nrZile = 0;
+                Data data_inceput,data_sfarsit;
                 std::cout << "\n--- Creare Rezervare ---\n";
                 std::cout << "CNP client: ";
-
-               std::cin >> cnp;
-                clearInputBuffer();
-
+                std::cin >> cnp;
                 std::cout << "Nr camera: ";
-
                 std::cin >> nrCam;
-                clearInputBuffer();
-
                 std::cout << "Data In (YYYY-MM-DD): ";
-                std::cin >> dataIn;
-                clearInputBuffer();
 
+                std::cin >> data_inceput;
                 std::cout << "Data Out (YYYY-MM-DD): ";
-                 std::cin >> dataOut;
-                clearInputBuffer();
+                std::cin >> data_sfarsit;
+
                 std::cout << "Nr zile: ";
-               std::cin >> nrZile;
-                clearInputBuffer();
+                std::cin >> nrZile;
 
 
-                int idRez = hotelPrincipal.creeazaRezervare(cnp, nrCam, dataIn, dataOut, nrZile);
+                int idRez = hotelPrincipal.creeazaRezervare(cnp, nrCam, data_inceput, data_sfarsit, nrZile);
                 if (idRez == -1) {
-                     std::cout << "Crearea rezervarii a esuat (verificati datele introduse)." << std::endl;
+                    std::cout << "Crearea rezervarii a esuat." << std::endl;
                 } else {
-                     const Rezervare* r = hotelPrincipal.gasesteRezervare(idRez);
-                     if(r != 0) std::cout << "\nRezervare creata:\n" << *r << std::endl;
-                 }
+                    const Rezervare* r = hotelPrincipal.gasesteRezervare(idRez);
+                    if(r != 0) std::cout << "\nRezervare creata:\n" << *r << std::endl;
+                }
                 break;
             }
-            case 5: { // Anuleaza Rezervare
+            case 5: {
                 int idRez = 0;
                 std::cout << "\n--- Anulare Rezervare ---\nID Rezervare: ";
-              std::cin >> idRez;
-                clearInputBuffer();
+                std::cin >> idRez;
 
                 if (!hotelPrincipal.anuleazaRezervare(idRez)) {
-                    std::cout << "Anularea rezervarii a esuat." << std::endl;
+
+
                 } else {
                     std::cout << "Rezervare ID " << idRez << " anulata.\n";
                 }
                 break;
             }
-            case 6: { // Marcheaza Platita
+            case 6: {
                 int idRez = 0;
                 std::cout << "\n--- Marcare Platita ---\nID Rezervare: ";
-               std::cin >> idRez;
-                clearInputBuffer();
+                std::cin >> idRez;
+
                 Rezervare* r = hotelPrincipal.gasesteRezervare(idRez);
                 if (r != 0) {
                     r->setPlatita(true);
@@ -182,29 +160,27 @@ int main() {
             case 13: {
                 std::string cnp;
                 std::cout << "\n--- Afisare Rezervari Client ---\nCNP: ";
-                std::cin>>cnp;
-                clearInputBuffer();
+                std::cin >> cnp;
                 hotelPrincipal.afisareRezervariClient(cnp);
                 break;
             }
-
-
-             case 14: {
-                 double venit = hotelPrincipal.calculeazaVenitTotal();
-                 std::cout << "\n--- Venit Total Actual ---\n" << venit << " RON\n------------------------\n";
-                 break;
-             }
-             case 15: std::cout << "\n--- Detalii Hotel  ---\n" << hotelPrincipal << "\n---------------------------\n"; break;
+            case 14: {
+                double venit = hotelPrincipal.calculeazaVenitTotal();
+                std::cout << "\n--- Venit Total Actual ---\n" << venit << " RON\n------------------------\n";
+                break;
+            }
+            case 15: std::cout << "\n--- Detalii Hotel ---\n" << hotelPrincipal << "\n---------------------------\n"; break;
             case 0:
                 std::cout << "Iesire din program...\n";
-                break;
+            break;
             default:
-                std::cout << "Optiune invalida. Incercati din nou.\n";
-                break;
+                std::cout << "Optiune invalida.\n";
+            break;
         }
 
+    }
+    while (optiune != 0);
 
-    } while (optiune != 0);
 
     std::cout << "Programul s-a incheiat." << std::endl;
     return 0;

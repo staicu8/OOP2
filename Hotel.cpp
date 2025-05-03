@@ -362,8 +362,8 @@ const Rezervare* Hotel::gasesteRezervare(int idRezervare) const {
 }
 
 
-int Hotel::creeazaRezervare(const std::string& cnpClient, int numarCamera, const std::string& dataCheckIn,
-                             const std::string& dataCheckOut, int numarZile) {
+int Hotel::creeazaRezervare(const std::string& cnpClient, int numarCamera,const Data& dataCheckIn,
+                            const Data& dataCheckOut, int numarZile) {
     Client* clientPtr = gasesteClient(cnpClient);
     if (clientPtr == 0) { return -1; }
     Camera* cameraPtr = gasesteCamera(numarCamera);
