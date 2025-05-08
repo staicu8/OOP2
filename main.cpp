@@ -36,26 +36,26 @@ int main() {
     std::cout << std::fixed << std::setprecision(2);
 
     Hotel hotelPrincipal("Staicu's Hotel  ", "Strada Grozavesti", 5);
-    std::cout << "Bun venit la sistemul de gestiune pentru " << hotelPrincipal.getNume() << "!" << std::endl;
+    std::cout << "Bun venit la sistemul de gestiune pentru " << hotelPrincipal.GetNume() << "!" << std::endl;
 
 
     TipCamera tipSingle("Single", 1, false, false);
     TipCamera tipDouble("Double", 2, true, false);
     TipCamera tipApartament("Apartament", 4, true, true);
 
-    hotelPrincipal.adaugaCamera(new Camera(101, 250.00, false, tipSingle, 1));
-    hotelPrincipal.adaugaCamera(new Camera(201, 400.00, false, tipDouble, 2));
-    hotelPrincipal.adaugaCamera(new Camera(301, 750.00, false, tipApartament, 3));
+    hotelPrincipal.AdaugaCamera(new Camera(101, 250.00, false, tipSingle, 1));
+    hotelPrincipal.AdaugaCamera(new Camera(201, 400.00, false, tipDouble, 2));
+    hotelPrincipal.AdaugaCamera(new Camera(301, 750.00, false, tipApartament, 3));
 
-    hotelPrincipal.adaugaClient(new Client("Popescu", "Ion", "1900101123456", 34));
-    hotelPrincipal.adaugaClient(new Client("Ionescu", "Andreea", "2950302654321", 29));
+    hotelPrincipal.AdaugaClient(new Client("Popescu", "Ion", "1900101123456", 34));
+    hotelPrincipal.AdaugaClient(new Client("Ionescu", "Andreea", "2950302654321", 29));
 
     Persoana* cl=new Client("Mircea","Andrei","2219910000121",20);
-    hotelPrincipal.adaugaClient(static_cast<Client*> (cl));
+    hotelPrincipal.AdaugaClient(static_cast<Client*> (cl));
 
     Persoana* ang=new Angajat("Mihai","Raul","200019988271",45,"Barman",7000,10);
-    hotelPrincipal.adaugaAngajat(static_cast<Angajat*> (ang));
-    hotelPrincipal.adaugaAngajat(new Angajat("Staicu", "Octavian", "1801122000000", 50, "Manager", 8500.00, 20));
+    hotelPrincipal.AdaugaAngajat(static_cast<Angajat*> (ang));
+    hotelPrincipal.AdaugaAngajat(new Angajat("Staicu", "Octavian", "1801122000000", 50, "Manager", 8500.00, 20));
 
     int optiune = -1;
     do {
@@ -73,7 +73,7 @@ int main() {
 
                 std::cin >> (*pCamNoua);
 
-                hotelPrincipal.adaugaCamera(pCamNoua);
+                hotelPrincipal.AdaugaCamera(pCamNoua);
                 break;
             }
             case 2: {
@@ -83,7 +83,7 @@ int main() {
 
                 std::cin >> (*pClientNou);
 
-                hotelPrincipal.adaugaClient(pClientNou);
+                hotelPrincipal.AdaugaClient(pClientNou);
                 break;
             }
             case 3: {
@@ -93,7 +93,7 @@ int main() {
 
                 std::cin >> (*pAngajatNou);
 
-                hotelPrincipal.adaugaAngajat(pAngajatNou);
+                hotelPrincipal.AdaugaAngajat(pAngajatNou);
                 break;
             }
             case 4: {
@@ -114,11 +114,11 @@ int main() {
                 std::cin >> nrZile;
 
 
-                int idRez = hotelPrincipal.creeazaRezervare(cnp, nrCam, data_inceput, data_sfarsit, nrZile);
+                int idRez = hotelPrincipal.CreeazaRezervare(cnp, nrCam, data_inceput, data_sfarsit, nrZile);
                 if (idRez == -1) {
                     std::cout << "Crearea rezervarii a esuat." << std::endl;
                 } else {
-                    const Rezervare* r = hotelPrincipal.gasesteRezervare(idRez);
+                    const Rezervare* r = hotelPrincipal.GasesteRezervare(idRez);
                     if(r != 0) std::cout << "\nRezervare creata:\n" << *r << std::endl;
                 }
                 break;
@@ -128,7 +128,7 @@ int main() {
                 std::cout << "\n--- Anulare Rezervare ---\nID Rezervare: ";
                 std::cin >> idRez;
 
-                if (!hotelPrincipal.anuleazaRezervare(idRez)) {
+                if (!hotelPrincipal.AnuleazaRezervare(idRez)) {
 
 
                 } else {
@@ -141,9 +141,9 @@ int main() {
                 std::cout << "\n--- Marcare Platita ---\nID Rezervare: ";
                 std::cin >> idRez;
 
-                Rezervare* r = hotelPrincipal.gasesteRezervare(idRez);
+                Rezervare* r = hotelPrincipal.GasesteRezervare(idRez);
                 if (r != 0) {
-                    r->setPlatita(true);
+                    r->SetPlatita(true);
                     std::cout << "Rezervare ID " << idRez << " marcata ca platita.\n";
                 } else {
                     std::cout << "Rezervare ID " << idRez << " negasita.\n";
@@ -151,21 +151,21 @@ int main() {
                 break;
             }
 
-            case 7: hotelPrincipal.afisareCamere(); break;
-            case 8: hotelPrincipal.afisareCamereLibere(); break;
-            case 9: hotelPrincipal.afisareCamereOcupate(); break;
-            case 10: hotelPrincipal.afisareClienti(); break;
-            case 11: hotelPrincipal.afisareAngajati(); break;
-            case 12: hotelPrincipal.afisareRezervari(); break;
+            case 7: hotelPrincipal.AfisareCamere(); break;
+            case 8: hotelPrincipal.AfisareCamereLibere(); break;
+            case 9: hotelPrincipal.AfisareCamereOcupate(); break;
+            case 10: hotelPrincipal.AfisareClienti(); break;
+            case 11: hotelPrincipal.AfisareAngajati(); break;
+            case 12: hotelPrincipal.AfisareRezervari(); break;
             case 13: {
                 std::string cnp;
                 std::cout << "\n--- Afisare Rezervari Client ---\nCNP: ";
                 std::cin >> cnp;
-                hotelPrincipal.afisareRezervariClient(cnp);
+                hotelPrincipal.AfisareRezervariClient(cnp);
                 break;
             }
             case 14: {
-                double venit = hotelPrincipal.calculeazaVenitTotal();
+                double venit = hotelPrincipal.CalculeazaVenitTotal();
                 std::cout << "\n--- Venit Total Actual ---\n" << venit << " RON\n------------------------\n";
                 break;
             }

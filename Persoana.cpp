@@ -1,47 +1,42 @@
 #include "Persoana.h"
 #include <iostream>
 
-
-Persoana::Persoana() : varsta(0) {}
-Persoana::Persoana(const std::string& nume, const std::string& prenume, const std::string& CNP, int varsta)
-    : nume(nume), prenume(prenume), CNP(CNP), varsta(varsta) {}
+Persoana::Persoana() : m_varsta(0) {}
+Persoana::Persoana(const std::string& nume, const std::string& prenume, const std::string& cnp, int varsta)
+    : m_nume(nume), m_prenume(prenume), m_cnp(cnp), m_varsta(varsta) {}
 Persoana::Persoana(const Persoana& other)
-    : nume(other.nume), prenume(other.prenume), CNP(other.CNP), varsta(other.varsta) {}
+    : m_nume(other.m_nume), m_prenume(other.m_prenume), m_cnp(other.m_cnp), m_varsta(other.m_varsta) {}
 Persoana::~Persoana() {}
-std::string Persoana::getNume() const { return nume; }
-void Persoana::setNume(const std::string& nume) { this->nume = nume; }
-std::string Persoana::getPrenume() const { return prenume; }
-void Persoana::setPrenume(const std::string& prenume) { this->prenume = prenume; }
-std::string Persoana::getCNP() const { return CNP; }
-void Persoana::setCNP(const std::string& CNP) { this->CNP = CNP; }
-int Persoana::getVarsta() const { return varsta; }
-void Persoana::setVarsta(int varsta) { this->varsta = varsta; }
+
+std::string Persoana::GetNume() const { return m_nume; }
+void Persoana::SetNume(const std::string& nume) { this->m_nume = nume; }
+std::string Persoana::GetPrenume() const { return m_prenume; }
+void Persoana::SetPrenume(const std::string& prenume) { this->m_prenume = prenume; }
+std::string Persoana::GetCNP() const { return m_cnp; }
+void Persoana::SetCNP(const std::string& cnp) { this->m_cnp = cnp; }
+int Persoana::GetVarsta() const { return m_varsta; }
+void Persoana::SetVarsta(int varsta) { this->m_varsta = varsta; }
+
 Persoana& Persoana::operator=(const Persoana& other) { /* ... */ return *this; }
-bool Persoana::operator==(const Persoana& other) const { return CNP == other.CNP; }
+bool Persoana::operator==(const Persoana& other) const { return m_cnp == other.m_cnp; }
+
 std::istream& operator>>(std::istream& is, Persoana& persoana) {
     std::cout << "Nume: ";
-    is >> persoana.nume;
+    is >> persoana.m_nume;
     std::cout << "Prenume: ";
-    is >> persoana.prenume;
+    is >> persoana.m_prenume;
     std::cout << "CNP: ";
-    is >> persoana.CNP;
+    is >> persoana.m_cnp;
     std::cout << "Varsta: ";
-    is >> persoana.varsta;
+    is >> persoana.m_varsta;
     return is;
 }
 
-
-
-void Persoana::afisare(std::ostream& os) const {
-    os << "Nume: " << nume << ", Prenume: " << prenume<< ", CNP: " << CNP << ", Varsta: " << varsta;
-
+void Persoana::Afisare(std::ostream& os) const {
+    os << "Nume: " << m_nume << ", Prenume: " << m_prenume << ", CNP: " << m_cnp << ", Varsta: " << m_varsta;
 }
 
-
-
-
-
 std::ostream& operator<<(std::ostream& os, const Persoana& persoana) {
-    persoana.afisare(os);
+    persoana.Afisare(os);
     return os;
 }

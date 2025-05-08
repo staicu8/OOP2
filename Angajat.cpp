@@ -1,71 +1,63 @@
 #include "Angajat.h"
 #include <iostream>
 
+Angajat::Angajat() : Persoana(), m_salariu(0.0), m_ani_experienta(0) {}
 
-Angajat::Angajat() : Persoana(), salariu(0.0), aniExperienta(0) {}
-
-Angajat::Angajat(std::string nume, std::string prenume, std::string CNP,
-                 int varsta, const std::string& functie, double salariu, int aniExperienta)
-    : Persoana(nume, prenume, CNP, varsta), functie(functie), salariu(salariu), aniExperienta(aniExperienta) {}
+Angajat::Angajat(std::string nume, std::string prenume, std::string cnp,
+                 int varsta, const std::string& functie, double salariu, int ani_experienta)
+    : Persoana(nume, prenume, cnp, varsta), m_functie(functie), m_salariu(salariu), m_ani_experienta(ani_experienta) {}
 
 Angajat::Angajat(const Angajat& other)
-    : Persoana(other), functie(other.functie), salariu(other.salariu), aniExperienta(other.aniExperienta) {}
-
+    : Persoana(other), m_functie(other.m_functie), m_salariu(other.m_salariu), m_ani_experienta(other.m_ani_experienta) {}
 
 Angajat::~Angajat() {}
 
+std::string Angajat::GetFunctie() const { return m_functie; }
+void Angajat::SetFunctie(const std::string& functie) { this->m_functie = functie; }
+double Angajat::GetSalariu() const { return m_salariu; }
+void Angajat::SetSalariu(double salariu) { this->m_salariu = salariu; }
+int Angajat::GetAniExperienta() const { return m_ani_experienta; }
+void Angajat::SetAniExperienta(int ani) { this->m_ani_experienta = ani; }
 
-std::string Angajat::getFunctie() const { return functie; }
-void Angajat::setFunctie(const std::string& functie) { this->functie = functie; }
-double Angajat::getSalariu() const { return salariu; }
-void Angajat::setSalariu(double salariu) { this->salariu = salariu; }
-int Angajat::getAniExperienta() const { return aniExperienta; }
-void Angajat::setAniExperienta(int ani) { this->aniExperienta = ani; }
+void Angajat::Afisare(std::ostream& os) const {
+    Persoana::Afisare(os);
 
-
-void Angajat::afisare(std::ostream& os) const {
-    Persoana::afisare(os);
-
-    os << ", Tip: " << getTip() // Apelam getTip() local
-       << ", Functie: " << functie
-       << ", Salariu: " << salariu << " RON"
-       << ", Experienta: " << aniExperienta << " ani";
+    os << ", Tip: " << GetTip()
+       << ", Functie: " << m_functie
+       << ", Salariu: " << m_salariu << " RON"
+       << ", Experienta: " << m_ani_experienta << " ani";
 }
 
-std::string Angajat::getTip() const {
+std::string Angajat::GetTip() const {
     return "Angajat";
 }
-
 
 Angajat& Angajat::operator=(const Angajat& other) {
     if (this != &other) {
         Persoana::operator=(other);
-        functie = other.functie;
-        salariu = other.salariu;
-        aniExperienta = other.aniExperienta;
+        m_functie = other.m_functie;
+        m_salariu = other.m_salariu;
+        m_ani_experienta = other.m_ani_experienta;
     }
     return *this;
 }
 
 bool Angajat::operator==(const Angajat& other) const {
-
     return Persoana::operator==(other) &&
-           functie == other.functie &&
-           salariu == other.salariu &&
-           aniExperienta == other.aniExperienta;
+           m_functie == other.m_functie &&
+           m_salariu == other.m_salariu &&
+           m_ani_experienta == other.m_ani_experienta;
 }
 
-
 std::ostream& operator<<(std::ostream& os, const Angajat& angajat) {
-
-    angajat.afisare(os);
+    angajat.Afisare(os);
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Angajat& angajat) {
     is >> static_cast<Persoana&>(angajat);
-    std::cout << "Functie: "; is >> angajat.functie;
-    std::cout << "Salariu: "; is >> angajat.salariu;
-    std::cout << "Ani experienta: "; is >> angajat.aniExperienta;
+    std::cout << "Functie: "; is >> angajat.m_functie;
+    std::cout << "Salariu: "; is >> angajat.m_salariu;
+    std::cout << "Ani experienta: "; is >> angajat.m_ani_experienta;
     return is;
 }

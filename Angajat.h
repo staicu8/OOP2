@@ -7,29 +7,26 @@
 
 class Angajat : public Persoana {
 private:
-    std::string functie;
-    double salariu;
-    int aniExperienta;
+    std::string m_functie;
+    double m_salariu;
+    int m_ani_experienta;
 
 public:
     Angajat();
-    Angajat(std::string nume, std::string prenume, std::string CNP,int varsta, const std::string& functie, double salariu, int aniExperienta);
+    Angajat(std::string nume, std::string prenume, std::string cnp, int varsta, const std::string& functie, double salariu, int ani_experienta);
     Angajat(const Angajat& other);
     ~Angajat();
 
+    std::string GetFunctie() const;
+    void SetFunctie(const std::string& functie);
+    double GetSalariu() const;
+    void SetSalariu(double salariu);
+    int GetAniExperienta() const;
+    void SetAniExperienta(int ani);
 
-    std::string getFunctie() const;
-    void setFunctie(const std::string& functie);
-    double getSalariu() const;
-    void setSalariu(double salariu);
-    int getAniExperienta() const;
-    void setAniExperienta(int ani);
+    void Afisare(std::ostream& os) const;
 
-
-    void afisare(std::ostream& os) const;
-
-    std::string getTip() const;
-
+    std::string GetTip() const;
 
     Angajat& operator=(const Angajat& other);
     bool operator==(const Angajat& other) const;

@@ -3,16 +3,13 @@
 
 #include <iostream>
 
-
 class IAfisabil {
 public:
     virtual ~IAfisabil() {}
 
-
-    virtual void afisare(std::ostream& os) const = 0;
+    virtual void Afisare(std::ostream& os) const = 0;
 };
 
 std::ostream& operator<<(std::ostream& os, const IAfisabil& obj);
-
 
 #endif // IAFISABIL_H

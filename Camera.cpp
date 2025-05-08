@@ -1,69 +1,62 @@
 #include "Camera.h"
 #include <iostream>
 
+Camera::Camera() : m_numar(0), m_pret_pe_noapte(0.0), m_ocupata(false), m_tip(), m_etaj(0) {}
 
-Camera::Camera() : numar(0), pretPeNoapte(0.0), ocupata(false), tip(), etaj(0) {}
-
-Camera::Camera(int numar, double pretPeNoapte, bool ocupata, const TipCamera& tip, int etaj)
-    : numar(numar), pretPeNoapte(pretPeNoapte), ocupata(ocupata), tip(tip), etaj(etaj) {}
+Camera::Camera(int numar, double pret_pe_noapte, bool ocupata, const TipCamera& tip, int etaj)
+    : m_numar(numar), m_pret_pe_noapte(pret_pe_noapte), m_ocupata(ocupata), m_tip(tip), m_etaj(etaj) {}
 
 Camera::Camera(const Camera& other)
-    : numar(other.numar), pretPeNoapte(other.pretPeNoapte), ocupata(other.ocupata),
-      tip(other.tip), etaj(other.etaj) {}
-
+    : m_numar(other.m_numar), m_pret_pe_noapte(other.m_pret_pe_noapte), m_ocupata(other.m_ocupata),
+      m_tip(other.m_tip), m_etaj(other.m_etaj) {}
 
 Camera::~Camera() {}
 
+int Camera::GetNumar() const { return m_numar; }
+void Camera::SetNumar(int numar) { this->m_numar = numar; }
+double Camera::GetPretPeNoapte() const { return m_pret_pe_noapte; }
+void Camera::SetPretPeNoapte(double pret) { this->m_pret_pe_noapte = pret; }
+bool Camera::IsOcupata() const { return m_ocupata; }
+void Camera::SetOcupata(bool ocupata) { this->m_ocupata = ocupata; }
+TipCamera Camera::GetTip() const { return m_tip; }
+const TipCamera& Camera::GetTipRef() const { return m_tip; }
+void Camera::SetTip(const TipCamera& tip) { this->m_tip = tip; }
+int Camera::GetEtaj() const { return m_etaj; }
+void Camera::SetEtaj(int etaj) { this->m_etaj = etaj; }
 
-int Camera::getNumar() const { return numar; }
-void Camera::setNumar(int numar) { this->numar = numar; }
-double Camera::getPretPeNoapte() const { return pretPeNoapte; }
-void Camera::setPretPeNoapte(double pret) { this->pretPeNoapte = pret; }
-bool Camera::isOcupata() const { return ocupata; }
-void Camera::setOcupata(bool ocupata) { this->ocupata = ocupata; }
-TipCamera Camera::getTip() const { return tip; }
-const TipCamera& Camera::getTipRef() const { return tip; }
-void Camera::setTip(const TipCamera& tip) { this->tip = tip; }
-int Camera::getEtaj() const { return etaj; }
-void Camera::setEtaj(int etaj) { this->etaj = etaj; }
-
-
-void Camera::afisare(std::ostream& os) const {
-    os << "Camera Nr: " << numar << ", Etaj: " << etaj
-       << ", Pret/Noapte: " << pretPeNoapte << " RON"
-       << ", Stare: " << (ocupata ? "Ocupata" : "Libera") << "\n"
-       << "   [" << tip << "]";
+void Camera::Afisare(std::ostream& os) const {
+    os << "Camera Nr: " << m_numar << ", Etaj: " << m_etaj
+       << ", Pret/Noapte: " << m_pret_pe_noapte << " RON"
+       << ", Stare: " << (m_ocupata ? "Ocupata" : "Libera") << "\n"
+       << " [" << m_tip << "]";
 }
-
 
 Camera& Camera::operator=(const Camera& other) {
     if (this != &other) {
-        numar = other.numar;
-        pretPeNoapte = other.pretPeNoapte;
-        ocupata = other.ocupata;
-        tip = other.tip;
-        etaj = other.etaj;
+        m_numar = other.m_numar;
+        m_pret_pe_noapte = other.m_pret_pe_noapte;
+        m_ocupata = other.m_ocupata;
+        m_tip = other.m_tip;
+        m_etaj = other.m_etaj;
     }
     return *this;
 }
 
 bool Camera::operator==(const Camera& other) const {
-
-    return numar == other.numar;
+    return m_numar == other.m_numar;
 }
 
-
 std::ostream& operator<<(std::ostream& os, const Camera& camera) {
-    camera.afisare(os);
+    camera.Afisare(os);
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Camera& camera) {
-    std::cout << "Numar camera: "; is >> camera.numar;
-    std::cout << "Pret pe noapte: "; is >> camera.pretPeNoapte;
-    std::cout << "Etaj: "; is >> camera.etaj;
+    std::cout << "Numar camera: "; is >> camera.m_numar;
+    std::cout << "Pret pe noapte: "; is >> camera.m_pret_pe_noapte;
+    std::cout << "Etaj: "; is >> camera.m_etaj;
     std::cout << "Introduceti detalii tip camera:\n";
-    is >> camera.tip;
-    camera.ocupata = false;
+    is >> camera.m_tip;
+    camera.m_ocupata = false;
     return is;
 }

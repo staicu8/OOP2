@@ -7,10 +7,10 @@
 
 class TipCamera : public IAfisabil {
 private:
-    std::string denumire;
-    int numarMaximPersoane;
-    bool areBalcon;
-    bool areVedere;
+    std::string m_denumire;
+    int m_numar_maxim_persoane;
+    bool m_are_balcon;
+    bool m_are_vedere;
 
 public:
     TipCamera();
@@ -19,17 +19,17 @@ public:
     ~TipCamera();
 
 
-    std::string getDenumire() const;
-    void setDenumire(const std::string& denumire);
-    int getNumarMaximPersoane() const;
-    void setNumarMaximPersoane(int numar);
-    bool hasBalcon() const;
-    void setAreBalcon(bool areBalcon);
-    bool hasVedere() const;
-    void setAreVedere(bool areVedere);
+    std::string GetDenumire() const;
+    void SetDenumire(const std::string& denumire);
+    int GetNumarMaximPersoane() const;
+    void SetNumarMaximPersoane(int numar);
+    bool HasBalcon() const;
+    void SetAreBalcon(bool areBalcon);
+    bool HasVedere() const;
+    void SetAreVedere(bool areVedere);
 
 
-    void afisare(std::ostream& os) const;
+    void Afisare(std::ostream& os) const;
 
     // Operatori
     TipCamera& operator=(const TipCamera& other);

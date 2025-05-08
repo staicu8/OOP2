@@ -15,74 +15,74 @@
 
 class Hotel : public IAfisabil {
 private:
-    std::string nume;
-    std::string adresa;
-    int numarStele;
+std::string m_nume;
+std::string m_adresa;
+int m_numar_stele;
 
 
-    std::vector<Camera*> camere;
-    std::vector<Client*> clienti;
-    std::vector<Angajat*> angajati;
-    std::vector<Rezervare*> rezervari;
+std::vector<Camera*> m_camere;
+std::vector<Client*> m_clienti;
+std::vector<Angajat*> m_angajati;
+std::vector<Rezervare*> m_rezervari;
 
 
-    Hotel(const Hotel& other);
-    Hotel& operator=(const Hotel& other);
+Hotel(const Hotel& other);
+Hotel& operator=(const Hotel& other);
 
 public:
 
-    Hotel();
-    Hotel(const std::string& nume, const std::string& adresa, int numarStele);
-    ~Hotel();
+Hotel();
+Hotel(const std::string& nume, const std::string& adresa, int numar_stele);
+~Hotel();
 
 
-    std::string getNume() const;
-    void setNume(const std::string& nume);
-    std::string getAdresa() const;
-    void setAdresa(const std::string& adresa);
-    int getNumarStele() const;
-    void setNumarStele(int stele);
+std::string GetNume() const;
+void SetNume(const std::string& nume);
+std::string GetAdresa() const;
+void SetAdresa(const std::string& adresa);
+int GetNumarStele() const;
+void SetNumarStele(int stele);
 
 
-    void adaugaCamera(Camera* pCamera);
-    void adaugaClient(Client* pClient);
-    void adaugaAngajat(Angajat* pAngajat);
-    bool stergeCamera(int numarCamera);
-    bool stergeClient(const std::string& CNP);
-    bool stergeAngajat(const std::string& CNP);
-    bool anuleazaRezervare(int idRezervare);
+void AdaugaCamera(Camera* p_camera);
+void AdaugaClient(Client* p_client);
+void AdaugaAngajat(Angajat* p_angajat);
+bool StergeCamera(int numar_camera);
+bool StergeClient(const std::string& CNP);
+bool StergeAngajat(const std::string& CNP);
+bool AnuleazaRezervare(int id_rezervare);
 
-    Camera* gasesteCamera(int numarCamera);
-    const Camera* gasesteCamera(int numarCamera) const;
-    Client* gasesteClient(const std::string& CNP);
-    const Client* gasesteClient(const std::string& CNP) const;
-    Angajat* gasesteAngajat(const std::string& CNP);
-    const Angajat* gasesteAngajat(const std::string& CNP) const;
-    Rezervare* gasesteRezervare(int idRezervare);
-    const Rezervare* gasesteRezervare(int idRezervare) const;
+Camera* GasesteCamera(int numar_camera);
+const Camera* GasesteCamera(int numar_camera) const;
+Client* GasesteClient(const std::string& CNP);
+const Client* GasesteClient(const std::string& CNP) const;
+Angajat* GasesteAngajat(const std::string& CNP);
+const Angajat* GasesteAngajat(const std::string& CNP) const;
+Rezervare* GasesteRezervare(int id_rezervare);
+const Rezervare* GasesteRezervare(int id_rezervare) const;
 
-    int creeazaRezervare(const std::string &cnpClient, int numarCamera, const Data &dataCheckIn,
-                         const Data &dataCheckOut, int numarZile);
-
-
-    void afisareCamere() const;
-    void afisareCamereLibere() const;
-    void afisareCamereOcupate() const;
-    void afisareClienti() const;
-    void afisareAngajati() const;
-    void afisareRezervari() const;
-    void afisareRezervariClient(const std::string& CNP) const;
+int CreeazaRezervare(const std::string &cnp_client, int numar_camera, const Data &data_check_in,
+const Data &data_check_out, int numar_zile);
 
 
-    void afisareGenerala(std::ostream& os) const;
-    double calculeazaVenitTotal() const;
+void AfisareCamere() const;
+void AfisareCamereLibere() const;
+void AfisareCamereOcupate() const;
+void AfisareClienti() const;
+void AfisareAngajati() const;
+void AfisareRezervari() const;
+void AfisareRezervariClient(const std::string& CNP) const;
 
 
-    void afisare(std::ostream& os) const;
+void AfisareGenerala(std::ostream& os) const;
+double CalculeazaVenitTotal() const;
 
 
-    friend std::ostream& operator<<(std::ostream& os, const Hotel& hotel);
-    friend std::istream& operator>>(std::istream& is, Hotel& hotel);
+void Afisare(std::ostream& os) const;
+
+
+friend std::ostream& operator<<(std::ostream& os, const Hotel& hotel);
+friend std::istream& operator>>(std::istream& is, Hotel& hotel);
 };
 
 #endif // HOTEL_H

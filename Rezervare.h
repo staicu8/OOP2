@@ -6,44 +6,44 @@
 #include <string>
 #include <iostream>
 #include <data.h>
+
 class Rezervare : public IAfisabil {
 private:
-    static int numarTotalRezervari;
-    int id;
-    Client client;
-    Camera camera;
-    Data dataCheckIn;
-    Data dataCheckOut;
-    int numarZile;
-    double pretTotal;
-    bool platita;
+    static int m_numar_total_rezervari;
+    int m_id;
+    Client m_client;
+    Camera m_camera;
+    Data m_data_check_in;
+    Data m_data_check_out;
+    int m_numar_zile;
+    double m_pret_total;
+    bool m_platita;
 
 public:
     Rezervare();
-    Rezervare(const Client& client, const Camera& camera, const Data& dataCheckIn,
-              const Data& dataCheckOut, int numarZile, bool platita = false);
+    Rezervare(const Client& client, const Camera& camera, const Data& data_check_in,
+              const Data& data_check_out, int numar_zile, bool platita = false);
     Rezervare(const Rezervare& other);
     ~Rezervare();
 
-    int getId() const;
-    const Client& getClientRef() const;
-    void setClient(const Client& client);
-    const Camera& getCameraRef() const;
-    void setCamera(const Camera& camera);
-    Data getDataCheckIn() const;
-    void setDataCheckIn(const Data& data);
-    Data getDataCheckOut() const;
-    void setDataCheckOut(const Data& data);
-    int getNumarZile() const;
-    void setNumarZile(int zile);
-    double getPretTotal() const;
-    bool isPlatita() const;
-    void setPlatita(bool platita);
+    int GetId() const;
+    const Client& GetClientRef() const;
+    void SetClient(const Client& client);
+    const Camera& GetCameraRef() const;
+    void SetCamera(const Camera& camera);
+    Data GetDataCheckIn() const;
+    void SetDataCheckIn(const Data& data);
+    Data GetDataCheckOut() const;
+    void SetDataCheckOut(const Data& data);
+    int GetNumarZile() const;
+    void SetNumarZile(int zile);
+    double GetPretTotal() const;
+    bool IsPlatita() const;
+    void SetPlatita(bool platita);
 
+    void CalculeazaPretTotal();
 
-    void calculeazaPretTotal();
-
-    void afisare(std::ostream& os) const;
+    void Afisare(std::ostream& os) const;
 
     Rezervare& operator=(const Rezervare& other);
     bool operator==(const Rezervare& other) const;

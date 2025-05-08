@@ -7,26 +7,24 @@
 
 class Client : public Persoana {
 private:
-    int numarRezervari;
-    bool clientFidel;
+    int m_numar_rezervari;
+    bool m_client_fidel;
 
 public:
     Client();
-    Client(const std::string& nume, const std::string& prenume, const std::string& CNP,
-           int varsta, int numarRezervari = 0, bool clientFidel = false);
+    Client(const std::string& nume, const std::string& prenume, const std::string& cnp,
+           int varsta, int numar_rezervari = 0, bool client_fidel = false);
     Client(const Client& other);
     ~Client();
 
+    int GetNumarRezervari() const;
+    void SetNumarRezervari(int numar_rezervari);
+    bool IsClientFidel() const;
+    void SetClientFidel(bool client_fidel);
 
-    int getNumarRezervari() const;
-    void setNumarRezervari(int numarRezervari);
-    bool isClientFidel() const;
-    void setClientFidel(bool clientFidel);
+    void Afisare(std::ostream& os) const;
 
-
-    void afisare(std::ostream& os) const;
-
-    std::string getTip() const;
+    std::string GetTip() const;
     Client& operator=(const Client& other);
     bool operator==(const Client& other) const;
 
