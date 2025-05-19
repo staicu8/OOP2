@@ -2,9 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <stdexcept>
-#include <limits>
-#include <cstddef>
+
 
 
 Hotel::Hotel() : m_numar_stele(0) {

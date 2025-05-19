@@ -29,7 +29,6 @@ void afiseazaMeniu() {
     std::cout << "15. Afiseaza Detalii Hotel \n";
     std::cout << " 0. Iesire\n";
     std::cout << "======================================================\n";
-    std::cout << "Alegeti o optiune: ";
 }
 
 int main() {
@@ -61,7 +60,7 @@ int main() {
     do {
         afiseazaMeniu();
 
-        std::cout << "Introduceti optiunea (doar cifre!): ";
+        std::cout << "Introduceti optiunea: ";
         std::cin >> optiune;
 
 
@@ -97,7 +96,7 @@ int main() {
                 break;
             }
             case 4: {
-                std::string cnp, dataIn, dataOut; int nrCam = 0, nrZile = 0;
+                std::string cnp; int nrCam = 0, nrZile = 0;
                 Data data_inceput,data_sfarsit;
                 std::cout << "\n--- Creare Rezervare ---\n";
                 std::cout << "CNP client: ";

@@ -32,9 +32,17 @@ void Rezervare::SetCamera(const Camera& m_camera) {
      CalculeazaPretTotal();
 }
 Data Rezervare::GetDataCheckIn() const { return m_data_check_in; }
-void Rezervare::SetDataCheckIn(const Data& data) { this->m_data_check_in.zi = data.zi; }
+void Rezervare::SetDataCheckIn(const Data& data) {
+    this->m_data_check_in.zi = data.zi;
+    this->m_data_check_in.an = data.an;
+    this->m_data_check_in.luna = data.luna;
+}
 Data Rezervare::GetDataCheckOut() const { return m_data_check_out; }
-void Rezervare::SetDataCheckOut(const Data& data) { this->m_data_check_out.zi = data.zi; }
+void Rezervare::SetDataCheckOut(const Data& data) {
+    this->m_data_check_in.zi = data.zi;
+    this->m_data_check_in.an = data.an;
+    this->m_data_check_in.luna = data.luna;
+}
 int Rezervare::GetNumarZile()const { return m_numar_zile; }
 void Rezervare::SetNumarZile (int zile) {
     this->m_numar_zile = zile > 0 ? zile : 0;

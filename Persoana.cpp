@@ -17,7 +17,7 @@ void Persoana::SetCNP(const std::string& cnp) { this->m_cnp = cnp; }
 int Persoana::GetVarsta() const { return m_varsta; }
 void Persoana::SetVarsta(int varsta) { this->m_varsta = varsta; }
 
-Persoana& Persoana::operator=(const Persoana& other) { /* ... */ return *this; }
+Persoana& Persoana::operator=(const Persoana& other) { return *this; }
 bool Persoana::operator==(const Persoana& other) const { return m_cnp == other.m_cnp; }
 
 std::istream& operator>>(std::istream& is, Persoana& persoana) {
