@@ -57,25 +57,40 @@ void Hotel::SetAdresa(const std::string& adresa) { this->m_adresa = adresa; }
 int Hotel::GetNumarStele() const { return m_numar_stele; }
 void Hotel::SetNumarStele(int stele) { if (stele >= 0 && stele <= 5) this->m_numar_stele = stele; else std::cerr << "..."; }
 
+int Hotel::_GasesteIndexAngajat(const std::string& CNP) const {
+    for(int i=0;i<m_angajati.size();++i)
+        if(m_angajati[i]->GetCNP()==CNP)
+            return i;
+    return -1;
+}
+int Hotel::_GasesteIndexCamera(int numar) const {
+    for(int i=0;i<m_camere.size();++i)
+        if(m_camere[i]->GetNumar()==numar)
+            return i;
+    return -1;
+}
+int Hotel::_GasesteIndexClient(const std::string& CNP) const {
+    for(int i=0;i<m_clienti.size();++i)
+        if(m_clienti[i]->GetCNP()==CNP)
+            return i;
+    return -1;
+}
+int Hotel::_GasesteIndexRezervare(int id_rezervare) const {
+    for(int i=0;i<m_rezervari.size();++i)
+        if(m_rezervari[i]->GetId()==id_rezervare)
+            return i;
+    return -1;
+}
 
 
 Camera* Hotel::GasesteCamera(int numar_camera) {
-for (int i = 0; i < m_camere.size(); ++i) {
+    int index=_GasesteIndexCamera(numar_camera);
+    if (index!=-1)
+        return m_camere[index];
+    return 0;
 
-if (m_camere[i] != 0 && m_camere[i]->GetNumar() == numar_camera) {
-return m_camere[i];
 }
-}
-return 0;
-}
-const Camera* Hotel::GasesteCamera(int numar_camera) const {
-for (int i = 0; i < m_camere.size(); ++i) {
-if (m_camere[i] != 0 && m_camere[i]->GetNumar() == numar_camera) {
-return m_camere[i];
-}
-}
-return 0;
-}
+
 
 void Hotel::AdaugaCamera(Camera* p_camera) {
 if (p_camera == 0) {
@@ -185,21 +200,12 @@ std::cout << "Nu exista camere ocupate momentan." << std::endl;
 
 
 Client* Hotel::GasesteClient(const std::string& CNP) {
-for (int i = 0; i < m_clienti.size(); ++i) {
-if (m_clienti[i] != 0 && m_clienti[i]->GetCNP() == CNP) {
-return m_clienti[i];
+    int index=_GasesteIndexClient(CNP);
+    if (index!=-1)
+        return m_clienti[index];
+    return 0;
 }
-}
-return 0;
-}
-const Client* Hotel::GasesteClient(const std::string& CNP) const {
-for (int i = 0; i < m_clienti.size(); ++i) {
-if (m_clienti[i] != 0 && m_clienti[i]->GetCNP() == CNP) {
-return m_clienti[i];
-}
-}
-return 0;
-}
+
 
 void Hotel::AdaugaClient(Client* p_client) {
 if (p_client == 0) {
@@ -260,23 +266,14 @@ std::cout << "------------------------------------------" << std::endl;
 
 
 Angajat* Hotel::GasesteAngajat(const std::string& CNP) {
-for (int i = 0; i < m_angajati.size(); ++i) {
-if (m_angajati[i] != 0 && m_angajati[i]->GetCNP() == CNP) {
-return m_angajati[i];
-}
-}
-return 0;
+    int index=_GasesteIndexAngajat(CNP);
+    if (index!=-1)
+        return m_angajati[index];
+    return 0;
 }
 
 
-const Angajat* Hotel::GasesteAngajat(const std::string& CNP) const {
-for (int i = 0; i < m_angajati.size(); ++i) {
-if (m_angajati[i] != 0 && m_angajati[i]->GetCNP() == CNP) {
-return m_angajati[i];
-}
-}
-return 0;
-}
+
 
 
 void Hotel::AdaugaAngajat(Angajat* p_angajat) {
@@ -342,20 +339,10 @@ std::cout << "------------------------------------------" << std::endl;
 
 
 Rezervare* Hotel::GasesteRezervare(int id_rezervare) {
-for (int i = 0; i < m_rezervari.size(); ++i) {
-if (m_rezervari[i] != 0 && m_rezervari[i]->GetId() == id_rezervare) {
-return m_rezervari[i];
-}
-}
-return 0;
-}
-const Rezervare* Hotel::GasesteRezervare(int id_rezervare) const {
-for (int i = 0; i < m_rezervari.size(); ++i) {
-if (m_rezervari[i] != 0 && m_rezervari[i]->GetId() == id_rezervare) {
-return m_rezervari[i];
-}
-}
-return 0;
+    int index=_GasesteIndexRezervare(id_rezervare);
+    if (index!=-1)
+        return m_rezervari[index];
+    return 0;
 }
 
 
@@ -369,13 +356,10 @@ if (camera_ptr->IsOcupata()) { return -1; }
 if (numar_zile <= 0) { return -1; }
 
 
-Rezervare* p_noua_rezervare = 0;
-try {
-p_noua_rezervare = new Rezervare(*client_ptr, *camera_ptr, data_check_in, data_check_out, numar_zile);
-} catch (const std::bad_alloc&) {
-std::cerr << "Eroare critica: Nu s-a putut aloca memorie pentru rezervare!" << std::endl;
-return -1;
-}
+Rezervare* p_noua_rezervare = new Rezervare(*client_ptr, *camera_ptr, data_check_in, data_check_out, numar_zile);;
+
+
+
 
 
 m_rezervari.push_back(p_noua_rezervare);
@@ -409,7 +393,7 @@ Camera* camera_ptr = GasesteCamera(numar_camera_rezervata);
 if (camera_ptr != 0) {
 camera_ptr->SetOcupata(false);
 } else {
-std::cerr << "Avertisment Anulare: Camera Nr " << numar_camera_rezervata << " negasita!" << std::endl;
+std::cerr << "Camera Nr " << numar_camera_rezervata << " negasita!" << std::endl;
 }
 
 
@@ -428,7 +412,7 @@ m_rezervari.erase(m_rezervari.begin() + index_gasit);
 std::cout << "Rezervare ID " << id_rezervare << " anulata." << std::endl;
 return true;
 } else {
-std::cerr << "Eroare Anulare: Rezervarea cu ID " << id_rezervare << " nu a fost gasita." << std::endl;
+std::cerr << "Eroare : Rezervarea cu ID " << id_rezervare << " nu a fost gasita." << std::endl;
 return false;
 }
 }
@@ -448,16 +432,16 @@ std::cout << *(m_rezervari[i]) << "\n--------------------" << std::endl;
 }
 }
 
-void Hotel::AfisareRezervariClient(const std::string& CNP) const {
+void Hotel::AfisareRezervariClient(const std::string& CNP)  {
 std::cout << "\n--- Rezervarile Clientului cu CNP: " << CNP << std::endl;
 bool gasit = false;
-const Client* client_ptr = GasesteClient(CNP);
+Client* client_ptr = GasesteClient(CNP);
 if (client_ptr == 0) {
 return;
 }
 std::cout << "Client: " << client_ptr->GetPrenume() << " " << client_ptr->GetNume() << std::endl;
 std::cout << "--------------------------------------------" << std::endl;
-for (int i = 0; i < static_cast<int>(m_rezervari.size()); ++i) {
+for (int i = 0; i < m_rezervari.size(); ++i) {
 if (m_rezervari[i] != 0 && m_rezervari[i]->GetClientRef().GetCNP() == CNP) {
 std::cout << *(m_rezervari[i]) << "\n--------------------" << std::endl;
 gasit = true;
@@ -469,28 +453,15 @@ std::cout<<"Clientul cu CNP "<<CNP<<" nu are rezervari."<<'\n';
 }
 
 
-void Hotel::AfisareGenerala(std::ostream& os) const {
 
-os << "\n========== Detalii Hotel ==========" << std::endl;
-os << "Nume: " << m_nume << " (" << m_numar_stele << " stele)" << std::endl;
-os << "Adresa: " << m_adresa << std::endl;
-os << "----------------------------------" << std::endl;
-os << "Numar total camere: " << m_camere.size() << std::endl;
-os << "Numar clienti inregistrati: " << m_clienti.size() << std::endl;
-os << "Numar angajati: " << m_angajati.size() << std::endl;
-os << "Numar rezervari active: " << m_rezervari.size() << std::endl;
-os << "=================================" << std::endl;
-}
+
 
 double Hotel::CalculeazaVenitTotal() const {
-double venit = 0.0;
-for (int i = 0; i < m_rezervari.size(); ++i) {
-
-if (m_rezervari[i] != 0 && m_rezervari[i]->IsPlatita()) {
-venit += m_rezervari[i]->GetPretTotal();
-}
-}
-return venit;
+    double venit = 0.0;
+    for(int i=0;i<m_rezervari.size();++i)
+        if(m_rezervari[i]->IsPlatita())
+        venit=venit+(*m_rezervari[i]);
+    return venit;
 }
 
 void Hotel::Afisare(std::ostream& os) const {

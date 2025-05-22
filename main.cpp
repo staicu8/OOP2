@@ -127,12 +127,7 @@ int main() {
                 std::cout << "\n--- Anulare Rezervare ---\nID Rezervare: ";
                 std::cin >> idRez;
 
-                if (!hotelPrincipal.AnuleazaRezervare(idRez)) {
 
-
-                } else {
-                    std::cout << "Rezervare ID " << idRez << " anulata.\n";
-                }
                 break;
             }
             case 6: {

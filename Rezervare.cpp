@@ -105,3 +105,7 @@ std::istream& operator>>(std::istream& is, Rezervare& rezervare) {
     rezervare.CalculeazaPretTotal();
     return is;
 }
+double operator+(double suma,const Rezervare& r) {
+    if(r.IsPlatita())
+    return suma+r.GetPretTotal();
+}

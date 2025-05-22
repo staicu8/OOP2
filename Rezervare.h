@@ -50,5 +50,5 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Rezervare& rezervare);
     friend std::istream& operator>>(std::istream& is, Rezervare& rezervare);
 };
-
+double operator+(double suma,const Rezervare& r);
 #endif // REZERVARE_H

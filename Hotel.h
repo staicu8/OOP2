@@ -29,6 +29,10 @@ std::vector<Rezervare*> m_rezervari;
 Hotel(const Hotel& other);
 Hotel& operator=(const Hotel& other);
 
+    int _GasesteIndexAngajat(const std::string& CNP) const;
+    int _GasesteIndexCamera(int numar) const;
+    int _GasesteIndexClient(const std::string& CNP) const;
+    int _GasesteIndexRezervare(int id_rezervare) const;
 public:
 
 Hotel();
@@ -53,13 +57,9 @@ bool StergeAngajat(const std::string& CNP);
 bool AnuleazaRezervare(int id_rezervare);
 
 Camera* GasesteCamera(int numar_camera);
-const Camera* GasesteCamera(int numar_camera) const;
 Client* GasesteClient(const std::string& CNP);
-const Client* GasesteClient(const std::string& CNP) const;
 Angajat* GasesteAngajat(const std::string& CNP);
-const Angajat* GasesteAngajat(const std::string& CNP) const;
 Rezervare* GasesteRezervare(int id_rezervare);
-const Rezervare* GasesteRezervare(int id_rezervare) const;
 
 int CreeazaRezervare(const std::string &cnp_client, int numar_camera, const Data &data_check_in,
 const Data &data_check_out, int numar_zile);
@@ -71,7 +71,7 @@ void AfisareCamereOcupate() const;
 void AfisareClienti() const;
 void AfisareAngajati() const;
 void AfisareRezervari() const;
-void AfisareRezervariClient(const std::string& CNP) const;
+void AfisareRezervariClient(const std::string& CNP) ;
 
 
 void AfisareGenerala(std::ostream& os) const;
