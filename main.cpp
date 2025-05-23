@@ -124,8 +124,10 @@ int main() {
             }
             case 5: {
                 int idRez = 0;
+
                 std::cout << "\n--- Anulare Rezervare ---\nID Rezervare: ";
                 std::cin >> idRez;
+                hotelPrincipal.AnuleazaRezervare(idRez);
 
 
                 break;
