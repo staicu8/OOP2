@@ -8,7 +8,7 @@ Data::Data(int z, int l, int a) {
   this->luna = l;
   this->an = a;
 }
-
+//Supraincarcare Operatori
 std::ostream& operator<<(std::ostream& os, const Data& d) {
   os << d.zi << "." << d.luna << "." << d.an;
   return os;

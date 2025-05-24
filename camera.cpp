@@ -1,6 +1,7 @@
-#include "Camera.h"
+#include "camera.h"
 #include <iostream>
 
+//Implementare Constructor,Constructor cu parametrii si Constructor de copiere
 Camera::Camera() : m_numar(0), m_pret_pe_noapte(0.0), m_ocupata(false), m_tip(), m_etaj(0) {}
 
 Camera::Camera(int numar, double pret_pe_noapte, bool ocupata, const TipCamera& tip, int etaj)
@@ -10,8 +11,11 @@ Camera::Camera(const Camera& other)
     : m_numar(other.m_numar), m_pret_pe_noapte(other.m_pret_pe_noapte), m_ocupata(other.m_ocupata),
       m_tip(other.m_tip), m_etaj(other.m_etaj) {}
 
+//Destructor
 Camera::~Camera() {}
 
+
+//Getteri si Setteri
 int Camera::GetNumar() const { return m_numar; }
 void Camera::SetNumar(int numar) { this->m_numar = numar; }
 double Camera::GetPretPeNoapte() const { return m_pret_pe_noapte; }
@@ -24,6 +28,8 @@ void Camera::SetTip(const TipCamera& tip) { this->m_tip = tip; }
 int Camera::GetEtaj() const { return m_etaj; }
 void Camera::SetEtaj(int etaj) { this->m_etaj = etaj; }
 
+
+//Implementeaza functia pur virtuala Afisare din interfata
 void Camera::Afisare(std::ostream& os) const {
     os << "Camera Nr: " << m_numar << ", Etaj: " << m_etaj
        << ", Pret/Noapte: " << m_pret_pe_noapte << " RON"
@@ -31,6 +37,7 @@ void Camera::Afisare(std::ostream& os) const {
        << " [" << m_tip << "]";
 }
 
+//Supraincarcare operatori
 Camera& Camera::operator=(const Camera& other) {
     if (this != &other) {
         m_numar = other.m_numar;

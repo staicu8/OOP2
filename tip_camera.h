@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#include "IAfisabil.h"
+#include "i_afisabil.h"
 
 class TipCamera : public IAfisabil {
 private:
@@ -13,12 +13,15 @@ private:
     bool m_are_vedere;
 
 public:
+    //Initializare Constructor,Constructor cu parametrii,Constructor de copiere
     TipCamera();
     TipCamera(const std::string& denumire, int numarMaximPersoane, bool areBalcon, bool areVedere);
     TipCamera(const TipCamera& other);
+
+    //Destructor
     ~TipCamera();
 
-
+//Getteri si Setteri
     std::string GetDenumire() const;
     void SetDenumire(const std::string& denumire);
     int GetNumarMaximPersoane() const;
@@ -28,10 +31,10 @@ public:
     bool HasVedere() const;
     void SetAreVedere(bool areVedere);
 
-
+    //Initializeaza functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 
-    // Operatori
+    // Supraincarcare operatori
     TipCamera& operator=(const TipCamera& other);
     bool operator==(const TipCamera& other) const;
     friend std::ostream& operator<<(std::ostream& os, const TipCamera& tipCamera);

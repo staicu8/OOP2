@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#include "IAfisabil.h"
+#include "i_afisabil.h"
 
 class Persoana : public IAfisabil {
 private:
@@ -13,11 +13,13 @@ private:
     int m_varsta;
 
 public:
+
     Persoana();
     Persoana(const std::string& nume, const std::string& prenume, const std::string& cnp, int varsta);
     Persoana(const Persoana& other);
+    //Destructor virtual
     virtual ~Persoana();
-
+//Getteri si Setteri
     std::string GetNume() const;
     void SetNume(const std::string& nume);
     std::string GetPrenume() const;
@@ -27,10 +29,12 @@ public:
     int GetVarsta() const;
     void SetVarsta(int varsta);
 
-    virtual void Afisare(std::ostream& os) const;
-
+    //Metoda pur virtuala care afiseaza tipul de persoana=>clasa abstracta
     virtual std::string GetTip() const = 0;
 
+    //Initializeaza functia pur virtuala Afisare din interfata
+    virtual void Afisare(std::ostream& os) const;
+//Supraincarcare operatori
     Persoana& operator=(const Persoana& other);
     bool operator==(const Persoana& other) const;
 

@@ -1,7 +1,7 @@
-#include "TipCamera.h"
+#include "tip_camera.h"
 #include <iostream>
 
-
+//Implementare Constructor,Constructor cu parametrii si Constructor de copiere
 TipCamera::TipCamera() : m_numar_maxim_persoane(0), m_are_balcon(false), m_are_vedere(false) {}
 
 TipCamera::TipCamera(const std::string& denumire, int numarMaximPersoane, bool areBalcon, bool areVedere)
@@ -11,10 +11,10 @@ TipCamera::TipCamera(const TipCamera& other)
     : m_denumire(other.m_denumire), m_numar_maxim_persoane(other.m_numar_maxim_persoane),
       m_are_balcon(other.m_are_balcon), m_are_vedere(other.m_are_vedere) {}
 
-
+//Destructor
 TipCamera::~TipCamera() {}
 
-
+//Getteri si Setteri
 std::string TipCamera::GetDenumire() const { return m_denumire; }
 void TipCamera::SetDenumire(const std::string& denumire) { this->m_denumire = denumire; }
 int TipCamera::GetNumarMaximPersoane() const { return m_numar_maxim_persoane; }
@@ -24,7 +24,7 @@ void TipCamera::SetAreBalcon(bool areBalcon) { this->m_are_balcon = areBalcon; }
 bool TipCamera::HasVedere() const { return m_are_vedere; }
 void TipCamera::SetAreVedere(bool areVedere) { this->m_are_vedere = areVedere; }
 
-
+//Implementeaza functia pur virtuala Afisare din interfata
 void TipCamera::Afisare(std::ostream& os) const {
     os << "Tip: " << m_denumire
        << ", Capacitate: " << m_numar_maxim_persoane << " pers"
@@ -32,7 +32,7 @@ void TipCamera::Afisare(std::ostream& os) const {
        << ", Vedere: " << (m_are_vedere ? "Da" : "Nu");
 }
 
-
+//Supraincarcare operatori
 TipCamera& TipCamera::operator=(const TipCamera& other) {
     if (this != &other) {
         m_denumire = other.m_denumire;

@@ -1,4 +1,4 @@
-#include "IAfisabil.h"
+#include "i_afisabil.h"
 #include <iostream>
 
 std::ostream& operator<<(std::ostream& os, const IAfisabil& obj) {

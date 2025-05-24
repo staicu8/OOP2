@@ -1,17 +1,19 @@
-#include "Rezervare.h"
+#include "rezervare.h"
 #include <iostream>
 #include <data.h>
 
+//Initializam membrul static
 int Rezervare::m_numar_total_rezervari = 0;
 
-
+//Implementare Constructor,Constructor cu parametrii si Constructor de copiere
 Rezervare::Rezervare() : m_id(++m_numar_total_rezervari), m_numar_zile(0), m_pret_total(0.0), m_platita(false) {}
 
 Rezervare::Rezervare(const Client& m_client, const Camera& m_camera, const Data& m_data_check_in,
                      const Data& m_data_check_out, int m_numar_zile, bool m_platita)
     : m_id(++m_numar_total_rezervari), m_client(m_client), m_camera(m_camera), m_data_check_in(m_data_check_in),
       m_data_check_out(m_data_check_out), m_numar_zile(m_numar_zile), m_platita(m_platita) {
-    CalculeazaPretTotal();
+    CalculeazaPretTotal();//In momentul in care a primit pretul pe noapte si
+                            //numarul de zile,trebuie calculat si pretul rezervarii
 }
 
 Rezervare::Rezervare(const Rezervare& other)
@@ -19,17 +21,17 @@ Rezervare::Rezervare(const Rezervare& other)
       m_data_check_out(other.m_data_check_out), m_numar_zile(other.m_numar_zile),
       m_pret_total(other.m_pret_total), m_platita(other.m_platita) {}
 
-
+//Destructor
 Rezervare::~Rezervare() {}
 
-
+//Getteri si Setteri
 int Rezervare::GetId() const { return m_id; }
 const Client& Rezervare::GetClientRef() const { return m_client; }
 void Rezervare::SetClient(const Client& m_client) { this->m_client = m_client; }
 const Camera& Rezervare::GetCameraRef() const { return m_camera; }
 void Rezervare::SetCamera(const Camera& m_camera) {
      this->m_camera = m_camera;
-     CalculeazaPretTotal();
+     CalculeazaPretTotal();//Daca se schimba camera pentru rezervare trebuie recalculat pretul
 }
 Data Rezervare::GetDataCheckIn() const { return m_data_check_in; }
 void Rezervare::SetDataCheckIn(const Data& data) {
@@ -46,7 +48,7 @@ void Rezervare::SetDataCheckOut(const Data& data) {
 int Rezervare::GetNumarZile()const { return m_numar_zile; }
 void Rezervare::SetNumarZile (int zile) {
     this->m_numar_zile = zile > 0 ? zile : 0;
-    CalculeazaPretTotal();
+    CalculeazaPretTotal();//Daca se schimba numarul de zile pentru rezervare trebuie recalculat pretul
 }
 double Rezervare::GetPretTotal() const { return m_pret_total; }
 bool Rezervare::IsPlatita() const { return m_platita; }
@@ -61,7 +63,7 @@ void Rezervare::CalculeazaPretTotal(){
     }
 }
 
-
+//Implementeaza functia pur virtuala Afisare din interfata
 void Rezervare::Afisare(std::ostream& os) const {
     os << "Rezervare id: " << m_id << ", platita: " << (m_platita ? "Da" : "Nu") << "\n";
     os << "   Perioada: " << m_data_check_in << " - " << m_data_check_out << " (" << m_numar_zile << " zile)\n";
@@ -70,7 +72,7 @@ void Rezervare::Afisare(std::ostream& os) const {
     os << "   camera: [" << m_camera << "]";
 }
 
-
+//Supraincarcare operatori
 Rezervare& Rezervare::operator=(const Rezervare& other) {
     if (this != &other) {
 
@@ -105,6 +107,7 @@ std::istream& operator>>(std::istream& is, Rezervare& rezervare) {
     rezervare.CalculeazaPretTotal();
     return is;
 }
+//Pentru a putea calcula venitul total din rezervari
 double operator+(double suma,const Rezervare& r) {
     if(r.IsPlatita())
     return suma+r.GetPretTotal();
