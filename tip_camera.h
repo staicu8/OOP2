@@ -31,7 +31,7 @@ public:
     bool HasVedere() const;
     void SetAreVedere(bool areVedere);
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 
     // Supraincarcare operatori

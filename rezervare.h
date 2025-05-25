@@ -44,7 +44,7 @@ public:
     void SetPlatita(bool platita);
     //Pretul total este pretul pe noapte * nr_de zile
     void CalculeazaPretTotal();
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 //Supraincarcare operatori
     Rezervare& operator=(const Rezervare& other);

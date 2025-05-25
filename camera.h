@@ -35,7 +35,7 @@ public:
     void SetEtaj(int etaj);
 
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 
 

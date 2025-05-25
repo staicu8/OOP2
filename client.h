@@ -27,10 +27,10 @@ public:
     bool IsClientFidel() const;
     // void SetClientFidel(bool client_fidel);
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 
-    //Initializeaza functia pur virtuala GetTip din Persoana
+    //Suprascrie functia pur virtuala GetTip din Persoana
     std::string GetTip() const;
 
     //Supraincarcare operatori

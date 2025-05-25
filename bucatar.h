@@ -4,7 +4,7 @@
 #include "angajat.h"
 #include <string>
 #include <iostream>
-//Mosteneste salariu si ani de experienta
+//Mosteneste salariu si ani de experienta din Angajat
 class Bucatar : public Angajat {
 private:
     std::string m_specializare_culinara;//De exemplu Mancare italiana,Traditionala
@@ -19,10 +19,10 @@ public:
     Bucatar(const Bucatar& other);
     virtual ~Bucatar();
 
-//Initializeaza functia pur virtuala din Persoana
+//Suprascrie functia pur virtuala din Persoana
     virtual std::string GetFunctie() const;
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     virtual void Afisare(std::ostream& os) const;
 
 //Getteri si Setteri
@@ -30,6 +30,9 @@ public:
     std::string GetSpecializare() const;
     void SetRang(const std::string& rang);
     std::string GetRang() const;
+
+    //Supraincarcare operatorul >>
+    friend std::istream& operator>>(std::istream& is,Bucatar &bucatar);
 };
 
 #endif // BUCATAR_H

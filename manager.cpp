@@ -1,7 +1,7 @@
 #include "manager.h"
 #include <iostream>
 
-//Mosteneste salariu si ani_experienta din Angajat
+
 //Implementare Constructor,Constructor cu parametrii si Constructor de copiere
 Manager::Manager() : Angajat(), m_departament_condus("Nespecificat") {}
 
@@ -18,7 +18,7 @@ Manager::~Manager() {}
 
 //Getteri si Setteri
 std::string Manager::GetFunctie() const {
-    return "Manager"+m_departament_condus;
+    return "Manager " +m_departament_condus;
 }
 
 void Manager::SetDepartament(const std::string& departament) {
@@ -31,7 +31,14 @@ std::string Manager::GetDepartament() const {
 //Implementeaza functia pur virtuala Afisare din interfata
 void Manager::Afisare(std::ostream& os) const {
     Angajat::Afisare(os);
-
+    os<<",Functie:"<<GetFunctie();
     os << ", Departament: " << m_departament_condus;
 
+}
+//Supraincarcare operatorul >>
+std::istream& operator>>(std::istream& is,Manager &manager) {
+    is>>static_cast<Angajat&>(manager);
+    std::cout<<"Departamentul condus:";
+    is>>manager.m_departament_condus;
+    return is;
 }

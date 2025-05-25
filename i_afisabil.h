@@ -11,7 +11,7 @@ public:
 };
 
 
-//Supraincarcare operaoturl <<
+//Supraincarcare operatorul <<
 std::ostream& operator<<(std::ostream& os, const IAfisabil& obj);
 
 #endif // IAFISABIL_H

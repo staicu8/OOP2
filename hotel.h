@@ -82,7 +82,7 @@ void AfisareRezervariClient(const std::string& CNP) ;
 
 double CalculeazaVenitTotal() const;
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
 
 void Afisare(std::ostream& os) const;
 

@@ -32,7 +32,7 @@ public:
     //Metoda pur virtuala care afiseaza tipul de persoana=>clasa abstracta
     virtual std::string GetTip() const = 0;
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     virtual void Afisare(std::ostream& os) const;
 //Supraincarcare operatori
     Persoana& operator=(const Persoana& other);

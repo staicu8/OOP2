@@ -27,8 +27,8 @@ void Angajat::SetAniExperienta(int ani) { this->m_ani_experienta = ani; }
 void Angajat::Afisare(std::ostream& os) const {
     Persoana::Afisare(os);
 
-    os << ", Tip: " << GetTip()
-       << ", Salariu: " << m_salariu << " RON"
+
+       os<< ", Salariu: " << m_salariu << " RON"
        << ", Experienta: " << m_ani_experienta << " ani";
 }
 //Implementeaza functia pur virtuala din Persoana
@@ -54,7 +54,6 @@ bool Angajat::operator==(const Angajat& other) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Angajat& angajat) {
-    //Folosim functia de afisare
     angajat.Afisare(os);
     return os;
 }

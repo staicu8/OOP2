@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <vector>
 #include <iomanip>
 #include "hotel.h"
 #include "tip_camera.h"
@@ -8,6 +7,7 @@
 #include "client.h"
 #include "angajat.h"
 #include "manager.h"
+#include "camerista.h"
 #include "bucatar.h"
 #include "persoana.h"
 #include "rezervare.h"
@@ -40,7 +40,7 @@ int main() {
 
     //Initializeaza hotelul
     Hotel hotelPrincipal("Staicu's Hotel  ", "Strada Grozavesti", 5);
-    std::cout << "Bun venit la sistemul de gestiune pentru " << hotelPrincipal.GetNume() << "!" << std::endl;
+    std::cout << "Bun venit la sistemul de gestiune pentru " << hotelPrincipal.GetNume()<<'\n';
 
 //Initializeaza tipuri de camere
     TipCamera tipSingle("Single", 1, false, false);
@@ -104,6 +104,7 @@ int main() {
                 std::cout << "Selectati tipul de angajat:\n";
                 std::cout << "  1. Manager\n";
                 std::cout << "  2. Bucatar\n";
+                std::cout << "  3. Camerista\n";
                 std::cout << "Optiune tip: ";
                 std::cin >> OptiuneAngajat;
 
@@ -124,6 +125,13 @@ int main() {
                         std::cout << "--- Date Bucatar ---\n";
                         std::cin >> (*pBuc);
                         pAngajatNou = pBuc;
+                        break;
+                    }
+                    case 3: {
+                        Camerista* pCam = new Camerista();
+                        std::cout << "--- Date Bucatar ---\n";
+                        std::cin >> (*pCam);
+                        pAngajatNou = pCam;
                         break;
                     }
                     default:

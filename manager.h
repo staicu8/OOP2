@@ -4,7 +4,7 @@
 #include "angajat.h"
 #include <string>
 
-
+//Mosteneste salariu si ani_experienta din Angajat
 class Manager : public Angajat {
 private:
     std::string m_departament_condus;
@@ -21,17 +21,17 @@ public:
 
     //Destructor
     virtual ~Manager();
-
+    //Suprascrie functia pur virtuala GetFunctie din Angajat
     virtual std::string GetFunctie() const;
 
-    //Initializeaza functia pur virtuala Afisare din interfata
+    //Suprascrie functia pur virtuala Afisare din interfata
     virtual void Afisare(std::ostream& os) const;
 
     void SetDepartament(const std::string& departament);
     std::string GetDepartament() const;
 
-
-
+    //Supraincarcare operatorul >>
+friend std::istream& operator>>(std::istream& is, Manager& manager);
 };
 
 #endif // MANAGER_H

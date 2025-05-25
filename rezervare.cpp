@@ -1,6 +1,6 @@
 #include "rezervare.h"
 #include <iostream>
-#include <data.h>
+#include "data.h"
 
 //Initializam membrul static
 int Rezervare::m_numar_total_rezervari = 0;

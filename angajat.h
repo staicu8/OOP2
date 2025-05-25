@@ -38,10 +38,10 @@ public:
     int GetAniExperienta() const;
 
 
-//Initializeaza functia pur virtuala Afisare din interfata
+//Suprascrie functia pur virtuala Afisare din interfata
     void Afisare(std::ostream& os) const;
 
-//Initializeaza functia pur virtuala din Persoana
+//Suprascrie functia pur virtuala din Persoana
     std::string GetTip() const;
 
     //Supraincarcare Operatori

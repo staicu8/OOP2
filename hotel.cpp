@@ -426,6 +426,7 @@ void Hotel::AfisareRezervariClient(const std::string& CNP)  {
     bool gasit = false;
     Client* client_ptr = GasesteClient(CNP);
     if (client_ptr == 0) {
+        std::cout<<"Clientul cu CNP "<<CNP<<" nu exista"<<'\n';
         return;
     }
 

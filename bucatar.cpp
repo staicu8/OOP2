@@ -23,7 +23,7 @@ Bucatar::~Bucatar() {}
 
 //Implementeaza functia pur virtuala din Angajat
 std::string Bucatar::GetFunctie() const {
-        return m_rang_bucatar;
+        return "Bucatar";
 }
 
 //Getteri si setteri
@@ -43,7 +43,16 @@ std::string Bucatar::GetRang() const {
 //Implementeaza functia pur virtuala Afisare din interfata
 void Bucatar::Afisare(std::ostream& os) const {
     Angajat::Afisare(os);
+    os<<",Functie:"<<GetFunctie();
     os<<",Rang:" << m_rang_bucatar;
     os << ", Specializare: " << m_specializare_culinara;
-
+}
+//Supraincarcare operatorul >>
+std::istream& operator>>(std::istream& is,Bucatar &bucatar) {
+    is>>static_cast<Angajat&>(bucatar);
+    std::cout<<"Specializare culinara:";
+    is>>bucatar.m_specializare_culinara;
+    std::cout<<"Rang bucatar:";
+    is>>bucatar.m_rang_bucatar;
+    return is;
 }
