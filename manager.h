@@ -27,6 +27,7 @@ public:
     //Suprascrie functia pur virtuala Afisare din interfata
     virtual void Afisare(std::ostream& os) const;
 
+    //Getter si Setter
     void SetDepartament(const std::string& departament);
     std::string GetDepartament() const;
 

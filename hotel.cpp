@@ -55,7 +55,7 @@ void Hotel::SetNume(const std::string& nume) { this->m_nume = nume; }
 std::string Hotel::GetAdresa() const { return m_adresa; }
 void Hotel::SetAdresa(const std::string& adresa) { this->m_adresa = adresa; }
 int Hotel::GetNumarStele() const { return m_numar_stele; }
-void Hotel::SetNumarStele(int stele) { if (stele >= 0 && stele <= 5) this->m_numar_stele = stele; else std::cerr << "..."; }
+void Hotel::SetNumarStele(int stele) { if (stele >= 0 && stele <= 5) this->m_numar_stele = stele; }
 
 
 
@@ -116,12 +116,7 @@ std::cout << "Camera Nr " << p_camera->GetNumar() << " adaugata." << std::endl;
 //Sterge camera cu numar dat din vectorul de camere
 bool Hotel::StergeCamera(int numar_camera) {
 int index_gasit = _GasesteIndexCamera(numar_camera);
-// for (int i = 0; i < m_camere.size(); ++i) {
-// if (m_camere[i] != 0 && m_camere[i]->GetNumar() == numar_camera) {
-// index_gasit = i;
-// break;
-// }
-//}
+
 
 if (index_gasit != -1) {//Daca a fost gasita camera
 //Verifica daca este folosita intr-o rezervare
@@ -390,10 +385,10 @@ for (int i = 0; i < m_rezervari.size(); ++i) {
 if (index_gasit != -1) {//Daca a fost gasita rezervarea
     Rezervare* p_rezervare_de_sters = m_rezervari[index_gasit];
 
-    int numar_camera_rezervata = p_rezervare_de_sters->GetCameraRef().GetNumar();
+    int numar_camera_rezervata = p_rezervare_de_sters->GetCameraRef().GetNumar();//Numarul camerei din rezervare
     Camera* camera_ptr = GasesteCamera(numar_camera_rezervata);
     camera_ptr->SetOcupata(false);//Elibereaza camera
-    Client* client_ptr = GasesteClient(p_rezervare_de_sters->GetClientRef().GetCNP());
+    Client* client_ptr = GasesteClient(p_rezervare_de_sters->GetClientRef().GetCNP());//CNP-ul clientului din rezervare
     int nr_rez = client_ptr->GetNumarRezervari();
     if (nr_rez > 0) client_ptr->SetNumarRezervari(nr_rez - 1);//Scade numarul de rezervari
     delete p_rezervare_de_sters;

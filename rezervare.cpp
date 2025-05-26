@@ -41,9 +41,9 @@ void Rezervare::SetDataCheckIn(const Data& data) {
 }
 Data Rezervare::GetDataCheckOut() const { return m_data_check_out; }
 void Rezervare::SetDataCheckOut(const Data& data) {
-    this->m_data_check_in.zi = data.zi;
-    this->m_data_check_in.an = data.an;
-    this->m_data_check_in.luna = data.luna;
+    this->m_data_check_out.zi = data.zi;
+    this->m_data_check_out.an = data.an;
+    this->m_data_check_out.luna = data.luna;
 }
 int Rezervare::GetNumarZile()const { return m_numar_zile; }
 void Rezervare::SetNumarZile (int zile) {
@@ -111,4 +111,5 @@ std::istream& operator>>(std::istream& is, Rezervare& rezervare) {
 double operator+(double suma,const Rezervare& r) {
     if(r.IsPlatita())
     return suma+r.GetPretTotal();
+return suma;
 }
